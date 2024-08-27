@@ -1,99 +1,9 @@
-
-<!DOCTYPE html>
-<html lang="zh-CN" class="loading">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>最终报告 - YuXuaan&#39;s Blog</title>
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google" content="notranslate" />
-    <meta name="keywords" content="create,"> 
-    <meta name="description" content="just for record,NSCSCC2024 设计报告
-
-杭州电子科技大学 NoAXI队
-
-
-
-
-1. 概述1.1 项目简介本项目是第八届”龙芯杯”全国大学生计算机系统能力培养大赛（NSCSCC 2024）的参赛作品。
-本,"> 
-    <meta name="author" content="YuXuaan"> 
-    <link rel="alternative" href="atom.xml" title="YuXuaan&#39;s Blog" type="application/atom+xml"> 
-    <link rel="icon" href="/img/favicon.png"> 
-    
-    
-    
-    <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:title" content="最终报告 - YuXuaan&#39;s Blog"/>
-    <meta name="twitter:description" content="just for record,NSCSCC2024 设计报告
-
-杭州电子科技大学 NoAXI队
-
-
-
-
-1. 概述1.1 项目简介本项目是第八届”龙芯杯”全国大学生计算机系统能力培养大赛（NSCSCC 2024）的参赛作品。
-本,"/>
-    
-    
-    
-    
-    <meta property="og:site_name" content="YuXuaan&#39;s Blog"/>
-    <meta property="og:type" content="object"/>
-    <meta property="og:title" content="最终报告 - YuXuaan&#39;s Blog"/>
-    <meta property="og:description" content="just for record,NSCSCC2024 设计报告
-
-杭州电子科技大学 NoAXI队
-
-
-
-
-1. 概述1.1 项目简介本项目是第八届”龙芯杯”全国大学生计算机系统能力培养大赛（NSCSCC 2024）的参赛作品。
-本,"/>
-    
-<link rel="stylesheet" href="/css/diaspora.css">
-
-    <script>window.searchDbPath = "/search.xml";</script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
-<meta name="generator" content="Hexo 7.3.0"></head>
-
-<body class="loading">
-    <span id="config-title" style="display:none">YuXuaan&#39;s Blog</span>
-    <div id="loader"></div>
-    <div id="single">
-    <div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
-    <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">最终报告</h3>
-    <div class="social">
-        <div>
-            <div class="share">
-                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
-            </div>
-            <div id="qr"></div>
-        </div>
-    </div>
-    <div class="scrollbar"></div>
-</div>
-
-    <div class="section">
-        <div class="article">
-    <div class='main'>
-        <h1 class="title">最终报告</h1>
-        <div class="stuff">
-            <span>八月 27, 2024</span>
-            
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/defense/" rel="tag">defense</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/nscscc/" rel="tag">nscscc</a></li><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/%E7%AD%94%E8%BE%A9/" rel="tag">答辩</a></li></ul>
-
-
-        </div>
-        <div class="content markdown">
-            <center><b><p style = "font-size:48px">NSCSCC2024 设计报告</p></b></center>
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>最终报告</title>
+    <url>/2024/08/27/test1/</url>
+    <content><![CDATA[<center><b><p style = "font-size:48px">NSCSCC2024 设计报告</p></b></center>
 
 <center><b><p style = "font-size:24px">杭州电子科技大学 NoAXI队</p></b></center>
 
@@ -427,143 +337,82 @@
 <li>当发生流水线清空的时候，首先向冲刷控制器发出请求。冲刷控制器会延迟一拍后，对于各个流水线及功能部件发出冲刷信号，并令重命名相关部件进行状态恢复。具体而言，状态恢复时，会将 aRAT 赋值给 cRAT，清空 rob 当中的所有表项，并将 freelist 的尾指针置为头指针位置。</li>
 </ol>
 <p>在提交级，我们通过 ROB 重排序缓存，成功实现了乱序执行结果的顺序写回过程，保证了乱序 CPU 在执行上的一致性，通过乱序架构的设计，我们的 CPU 达到了良好的性能表现。</p>
-<h1 id="4-参考资料"><a href="#4-参考资料" class="headerlink" title="4. 参考资料"></a>4. 参考资料</h1><p>[1]J. Ye, and L. Xi, <em>PUA-MIPS</em>, <a target="_blank" rel="noopener" href="https://github.com/Clo91eaf/PUA-MIPS">https://github.com/Clo91eaf/PUA-MIPS</a>, 2023</p>
-<p>[2] Z. Ma, <em>LA32R-pipeline-scala</em>, <a target="_blank" rel="noopener" href="https://github.com/MaZirui2001/LA32R-pipeline-scala">https://github.com/MaZirui2001/LA32R-pipeline-scala</a>, 2023</p>
-<p>[3] H. Gao, and M. Liu, <em>NOP-Core</em>, <a target="_blank" rel="noopener" href="https://github.com/NOP-Processor/NOP-Core">https://github.com/NOP-Processor/NOP-Core</a>, 2023</p>
-<p>[4] Y. Zhou, S. Chen, X. Liu and J. Chen, <em>Nontrivial-mips</em>,<a target="_blank" rel="noopener" href="https://github.com/trivialmips/nontrivial-mips">https://github.com/trivialmips/nontrivial-mips</a>, 2019</p>
+<h1 id="4-参考资料"><a href="#4-参考资料" class="headerlink" title="4. 参考资料"></a>4. 参考资料</h1><p>[1]J. Ye, and L. Xi, <em>PUA-MIPS</em>, <a href="https://github.com/Clo91eaf/PUA-MIPS">https://github.com/Clo91eaf/PUA-MIPS</a>, 2023</p>
+<p>[2] Z. Ma, <em>LA32R-pipeline-scala</em>, <a href="https://github.com/MaZirui2001/LA32R-pipeline-scala">https://github.com/MaZirui2001/LA32R-pipeline-scala</a>, 2023</p>
+<p>[3] H. Gao, and M. Liu, <em>NOP-Core</em>, <a href="https://github.com/NOP-Processor/NOP-Core">https://github.com/NOP-Processor/NOP-Core</a>, 2023</p>
+<p>[4] Y. Zhou, S. Chen, X. Liu and J. Chen, <em>Nontrivial-mips</em>,<a href="https://github.com/trivialmips/nontrivial-mips">https://github.com/trivialmips/nontrivial-mips</a>, 2019</p>
 <p>[5] W. Wang, and J. Xing, <em>CPU Design and Practice</em>, Beijing: China Machine Press, 2021</p>
 <p>[6] Y. Yao, <em>SuperScalar RISC Processor Design</em>, Beijing: Tsinghua University Press, 2014</p>
-
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-                <ul id="audio-list" style="display:none">
-                    
-                        
-                            <li title="0" data-url="http://link.hhtjim.com/163/425570952.mp3"></li>
-                        
-                    
-                        
-                            <li title="1" data-url="http://link.hhtjim.com/163/425570952.mp3"></li>
-                        
-                    
-                </ul>
-            
-        </div>
-        
-        
-    <div id="gitalk-container" class="comment link"
-		data-enable="false"
-        data-ae="false"
-        data-ci=""
-        data-cs=""
-        data-r=""
-        data-o=""
-        data-a=""
-        data-d="false"
-    >查看评论</div>
-
-
-    </div>
-    
-        <div class="side">
-            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">1. 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 项目简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E5%A4%84%E7%90%86%E5%99%A8%E6%80%BB%E4%BD%93%E5%8F%82%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 处理器总体参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 实现功能</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%A4%84%E7%90%86%E5%99%A8%E5%BE%AE%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.</span> <span class="toc-text">2. 处理器微架构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%95%B4%E4%BD%93%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 整体介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%89%8D%E7%AB%AF%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 前端设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E9%A2%84%E5%8F%96%E6%8C%87-PreFetch"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 预取指 PreFetch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E5%8F%96%E6%8C%87-Fetch"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 取指 Fetch</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-1-%E5%88%86%E6%94%AF%E9%A2%84%E6%B5%8B%E5%99%A8-BPU"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">2.2.2.1 分支预测器 BPU</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-2-TLB"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">2.2.2.2 TLB</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E9%A2%84%E8%AF%91%E7%A0%81-PreDecode"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 预译码 PreDecode</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-1-%E6%8C%87%E4%BB%A4%E7%BC%93%E5%86%B2-Instruction-Buffer-IB"><span class="toc-number">2.2.3.1.</span> <span class="toc-text">2.2.3.1 指令缓冲 Instruction Buffer (IB)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-4-%E8%AF%91%E7%A0%81-Decode"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.1.4 译码 Decode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-5-%E9%87%8D%E5%91%BD%E5%90%8D-Rename"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.2.5 重命名 Rename</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E5%90%8E%E7%AB%AF%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 后端设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-%E5%88%86%E5%8F%91-Dispatch"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 分发 Dispatch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-%E5%8F%91%E5%B0%84-Issue"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 发射 Issue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-%E8%AF%BB%E5%AF%84%E5%AD%98%E5%99%A8-ReadReg"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 读寄存器 ReadReg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-4-%E7%AE%97%E6%9C%AF%E6%B5%81%E6%B0%B4%E7%BA%BF-Arithmetic"><span class="toc-number">2.3.4.</span> <span class="toc-text">2.3.4 算术流水线 Arithmetic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-5-%E4%B9%98%E9%99%A4%E6%B5%81%E6%B0%B4%E7%BA%BF-Muldiv"><span class="toc-number">2.3.5.</span> <span class="toc-text">2.3.5 乘除流水线 Muldiv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-6-%E8%AE%BF%E5%AD%98%E6%B5%81%E6%B0%B4%E7%BA%BF-Memory"><span class="toc-number">2.3.6.</span> <span class="toc-text">2.3.6 访存流水线 Memory</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-1-Mem0"><span class="toc-number">2.3.6.1.</span> <span class="toc-text">2.3.6.1 Mem0</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-2-Mem1"><span class="toc-number">2.3.6.2.</span> <span class="toc-text">2.3.6.2 Mem1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-3-Mem2"><span class="toc-number">2.3.6.3.</span> <span class="toc-text">2.3.6.3 Mem2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-4-%E5%86%99%E7%BC%93%E5%AD%98-Store-Buffer"><span class="toc-number">2.3.6.4.</span> <span class="toc-text">2.3.6.4 写缓存 Store Buffer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-5-%E6%95%B0%E6%8D%AE-%E6%8C%87%E4%BB%A4-%E7%BC%93%E5%AD%98-Cache"><span class="toc-number">2.3.6.5.</span> <span class="toc-text">2.3.6.5 数据(指令)缓存 Cache</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-7-%E5%86%99%E5%9B%9E-WriteBack"><span class="toc-number">2.3.7.</span> <span class="toc-text">2.3.7 写回 WriteBack</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-8-%E6%8F%90%E4%BA%A4-Commit"><span class="toc-number">2.3.8.</span> <span class="toc-text">2.3.8 提交 Commit</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">3.</span> <span class="toc-text">4. 参考资料</span></a></li></ol>
-        </div>
-    
-</div>
-
-
-    </div>
-</div>
-</body>
-
-
-<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
-<script src="/js/plugin.js"></script>
-<script src="/js/typed.js"></script>
-<script src="/js/diaspora.js"></script>
-
-
-<link rel="stylesheet" href="/photoswipe/photoswipe.css">
-<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
-
-
-<script src="/photoswipe/photoswipe.min.js"></script>
-<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
-
-
-<!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <!--  Controls are self-explanatory. Order can be changed. -->
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"], linebreaks: { automatic:true }, EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50) },
-        tex2jax: { inlineMath: [ ["$", "$"], ["\\(","\\)"] ], processEscapes: true, ignoreClass: "tex2jax_ignore|dno",skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']},
-        TeX: {  noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } }, Macros: { href: "{}" } },
-        messageStyle: "none"
-    });
-</script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-
-<script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
-
-
-
-</html>
+]]></content>
+      <categories>
+        <category>nscscc</category>
+      </categories>
+      <tags>
+        <tag>nscscc</tag>
+        <tag>答辩</tag>
+        <tag>defense</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>E. 2..3...4.... Wonderful! Wonderful! 解题思路</title>
+    <url>/2024/02/26/title/</url>
+    <content><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给定一个 $n$，和一个 $1,2,3,4,\dots,n$ 的数组，对于每个 $1 \leq k \leq \lfloor \frac{n-1}{2} \rfloor$，选择长度为 $2k+1$ 的<strong>子序列</strong>，并且删除头和尾的 $k$ 个元素，求执行若干次上述操作（可以是 $0$ 次）所能得到的最终数组个数</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>$$<br>\begin{aligned}<br>ans_{n,k}<br>&amp;&#x3D;1+\sum_{t&#x3D;1}^{\lfloor \frac{n}{2k} \rfloor} \binom{n}{2kt}-\binom{n-2kt+2k-1}{2k-1}\<br>\end{aligned}<br>$$</p>
+<p>按上式对一个 $n$ 求出的答案，时间复杂度为 $O(\frac{n}{2}+\frac{n}{4}+\frac{n}{6} +\cdots)&#x3D;O(n\log n)$，可以通过</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="首先，考虑合法状态"><a href="#首先，考虑合法状态" class="headerlink" title="首先，考虑合法状态"></a>首先，考虑合法状态</h3><p>固定 $n$ 和 $k$，考虑从初始数组到<strong>最终数组</strong>的<strong>合法状态</strong>是怎么样的（以 $n&#x3D;10,k&#x3D;2$ 为例）</p>
+<p>初始数组：</p>
+<p>$$<br>\color{green}1\quad\color{green}2\quad\color{green}3\quad\color{green}4\quad\color{green}5\quad\color{green}6\quad\color{green}7\quad\color{green}8\quad\color{green}9\quad\color{green}{10}<br>$$</p>
+<p>最终数组（实例中为<strong>合法状态</strong>）：</p>
+<p>$$<br>\require{cancel}<br>\bcancel1\quad\bcancel2\quad\bcancel3\quad\color{green}4\quad\bcancel5\quad\bcancel6\quad\color{green}7\quad\bcancel8\quad\bcancel9\quad\bcancel{10}<br>$$</p>
+<h4 id="基本定义"><a href="#基本定义" class="headerlink" title="基本定义"></a>基本定义</h4><p><strong>最终状态</strong>一定是由若干 <strong>块</strong> （一段连续的被删除的数字）组成的，就比如上例中的 $3$ 个<strong>块</strong>：</p>
+<p>$$<br>\{<br>    1\quad2\quad3<br>\}\quad<br>\{<br>    5\quad6<br>\}\quad<br>\{<br>    8\quad9\quad10<br>\}<br>$$</p>
+<p>且<strong>块</strong>必然由<strong>空</strong>（一段连续的未被删除的数字）隔开</p>
+<h4 id="简单情况"><a href="#简单情况" class="headerlink" title="简单情况"></a><strong>简单情况</strong></h4><p>仅考虑有且仅有 $1$ 个<strong>空</strong>（此时必然有 $2$ 个<strong>块</strong>）的情况：</p>
+<p>若其中某个<strong>块</strong>的<strong>块的大小</strong>（块内数字个数）小于 $k$，考虑若干次操作后的<strong>最后一次</strong>操作，必然是删<strong>最后剩余</strong>的 $2k$ 个被删除的数字，此时有两种情况（定义<strong>块</strong>小的为<strong>小块</strong>，<strong>块</strong>大的为<strong>大块</strong>）：</p>
+<ol>
+<li><p><strong>最后剩余</strong>的 $2k$ 个待被删除的数字全在<strong>大块</strong>中：显然非法，此时这 $2k$ 个数<strong>正中间</strong>没有<strong>未被删除的数字</strong>，无法通过选择 $2k+1$ 的子序列删除</p>
+</li>
+<li><p><strong>最后剩余</strong>的 $2k$ 个待被删除的数字既在<strong>大块</strong>也在<strong>小块</strong>中：显然非法，同上所述，无法在这 $2k$ 个数<strong>正中间</strong>找到<strong>未被删除的数字</strong></p>
+</li>
+</ol>
+<p>若没有某个<strong>块</strong>的<strong>块的大小</strong>小于 $k$，即 $2$ 个<strong>块</strong>的<strong>块的大小</strong>都大于等于 $k$：必然合法，我们只要保证<strong>最后剩余</strong>的 $2k$ 个待被删除的数字分别有 $k$ 个在不同的块中即可，前面的操作我们可以有很多种方法去构造：</p>
+<p>$$<br>\{<br>\color{blue}{x\quad{x+1}\dots x+k-1}\quad\color{red}{x+k\dots }<br>\}\quad<br>\{<br>{y\quad{y+1}\dots y+k-1}\quad{y+k\dots }<br>\}<br>$$</p>
+<p>如上图所示的 $2$ 个<strong>块</strong>（不妨设左块为<strong>小块</strong>，右块为<strong>大块</strong>），我们只需让<strong>左块</strong>的红色部分和<strong>右块</strong>去删即可，直到<strong>左块</strong>只剩下蓝色部分，再让<strong>右块</strong>自己删到剩下 $k$ 个数（具体而言就是左边取 $k$ 个右边取 $k$ 个）</p>
+<p><strong>简单情况结论</strong></p>
+<p><strong>合法状态</strong>当且仅当 $2$ 个<strong>块的大小</strong>（块内数字个数）都大于等于 $k$</p>
+<h4 id="一般情况"><a href="#一般情况" class="headerlink" title="一般情况"></a><strong>一般情况</strong></h4><p>我们注意到<strong>简单情况结论</strong>，其等价形式即为：存在一个<strong>空</strong>，其左右<strong>块</strong>大小均大于等于 $k$</p>
+<p>对于一般情况，对比简单情况，无非就是多了<strong>空</strong>和<strong>块</strong></p>
+<p>因此拓展一下：“<strong>空</strong>的左右<strong>块</strong>大小均大于等于 $k$”也可以是“<strong>空</strong>的左右<strong>待删数字</strong>个数均大于等于 $k$”（因为既然<strong>块</strong>都可以，那若干<strong>块</strong>当然也可以），由此得到本题的重要结论：</p>
+<p><strong>一般情况结论：</strong></p>
+<p><strong>合法状态</strong>当且仅当存在一个<strong>空</strong>，其左右<strong>待删数字</strong>个数都大于等于 $k$</p>
+<p>对于上述结论，考虑反面“不存在<strong>空</strong>，其左右<strong>待删数字</strong>个数都大于等于 $k$”，那么可以按简单情况（若根本不存在<strong>空</strong>，显然无解）考虑，考虑最后删除的 $2k$ 个数字，此时必然无解（证略），于是便论证了该结论的<strong>完备性</strong></p>
+<h3 id="其次，考虑计算"><a href="#其次，考虑计算" class="headerlink" title="其次，考虑计算"></a>其次，考虑计算</h3><p>固定删除元素的个数（设共删去 $2k\cdot t$ 个数），计算合法状态个数</p>
+<p>正难则反，正着直接计算<strong>合法状态</strong>情况太多易重复，考虑先计算所有<strong>最终状态</strong>，再减去非法状态</p>
+<p><strong>最终状态</strong>总个数：</p>
+<p>$$<br>\binom{n}{n-2kt}&#x3D;\binom{n}{2kt}<br>$$</p>
+<p><strong>非法状态</strong>：设 $\square$ 表示待删数字，内部数字为编号</p>
+<p>$$<br>\boxed{1}\quad\boxed{2}\quad\boxed{3}\quad\boxed{4}\cdots\boxed{2kt-3}\quad\boxed{2kt-2}\quad\boxed{2kt-1}\quad\boxed{2kt}\quad<br>$$</p>
+<p>非法状态即“不存在<strong>空</strong>，其左右<strong>待删数字</strong>个数都大于等于 $k$”，也就是“即使存在空，其左右<strong>待删数字</strong>个数都小于 $k$”，那么也就是<strong>仅</strong>在 $\color{green}{\sqcup}$ 可以存在若干<strong>最终状态</strong>的数字：</p>
+<p>$$<br>\color{green}{\sqcup}\boxed{1}\color{green}{\sqcup}\boxed{2}\color{green}{\sqcup}\boxed{3}\color{green}{\sqcup}\boxed{4}\color{green}{\sqcup}\cdots\color{green}{\sqcup}\boxed{k-2}\color{green}{\sqcup}\boxed{k-1}\color{green}{\sqcup}\boxed{k}\cdots<br>$$</p>
+<p>$$<br>\cdots\boxed{2kt-k+1}\color{green}{\sqcup}\boxed{2kt-k+2}\color{green}{\sqcup}\boxed{2kt-k+3}\color{green}{\sqcup}\boxed{2kt-k+4}\color{green}{\sqcup}\cdots\color{green}{\sqcup}\boxed{2kt-2}\color{green}{\sqcup}\boxed{2kt-1}\color{green}{\sqcup}\boxed{2kt}\color{green}{\sqcup}<br>$$</p>
+<p>问题转化为将 $n-2kt$ 个数放置在 $2k$ 个格子里（可以放 $0$ 个）的方案数。经典问题，借物隔板法，得<strong>非法状态</strong>方案数为：</p>
+<p>$$<br>\binom{n-2kt+2k-1}{2k-1}<br>$$</p>
+<p>综上得，当固定删除元素的个数（设共删去 $2k\cdot t$ 个数）时，<strong>合法状态</strong>方案数为：</p>
+<p>$$<br>\binom{n}{2kt}-\binom{n-2kt+2k-1}{2k-1}<br>$$</p>
+<p>最终对于固定 $n$ 和 $k$ 而言，枚举 $t$ 并累加即可（注意可以一次也不操作，所以原始数组也算一种答案），即得：</p>
+<p>$$<br>\begin{aligned}<br>ans_{n,k}<br>&amp;&#x3D;1+\sum_{t&#x3D;1}^{\lfloor \frac{n}{2k} \rfloor} \binom{n}{2kt}-\binom{n-2kt+2k-1}{2k-1}\<br>\end{aligned}<br>$$</p>
+<p>枚举 $k$ 即得对于 $n$ 的答案</p>
+<p>朴实无华的代码</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br><span class="hljs-type">const</span> <span class="hljs-type">int</span> N=<span class="hljs-number">1e6</span><span class="hljs-number">+5</span>,mod=<span class="hljs-number">998244353</span>;<br><span class="hljs-type">int</span> fac[N],facinv[N];<br><span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">C</span><span class="hljs-params">(<span class="hljs-type">int</span> a,<span class="hljs-type">int</span> b)</span></span>&#123;<span class="hljs-keyword">return</span> <span class="hljs-number">1ll</span>*fac[a]*facinv[b]%mod*facinv[a-b]%mod;&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">solve</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-type">int</span> n;<br>    cin&gt;&gt;n;<br>    <span class="hljs-function">vector&lt;<span class="hljs-type">int</span>&gt; <span class="hljs-title">ans</span><span class="hljs-params">(n,<span class="hljs-number">1</span>)</span></span>;<br><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=<span class="hljs-number">1</span>;k&lt;=(n<span class="hljs-number">-1</span>)/<span class="hljs-number">2</span>;k++)<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=n/(<span class="hljs-number">2</span>*k);i++)<br>            ans[k]+=<span class="hljs-built_in">C</span>(n,<span class="hljs-number">2</span>*k*i)-<span class="hljs-built_in">C</span>(n<span class="hljs-number">-2</span>*i*k<span class="hljs-number">+2</span>*k<span class="hljs-number">-1</span>,<span class="hljs-number">2</span>*k<span class="hljs-number">-1</span>),ans[k]%=mod;<br><br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k=<span class="hljs-number">1</span>;k&lt;=(n<span class="hljs-number">-1</span>)/<span class="hljs-number">2</span>;k++)<br>        cout&lt;&lt;(ans[k]+mod)%mod&lt;&lt;<span class="hljs-string">&quot; \n&quot;</span>[k==(n<span class="hljs-number">-1</span>)/<span class="hljs-number">2</span>];<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">signed</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    std::ios::<span class="hljs-built_in">sync_with_stdio</span>(<span class="hljs-literal">false</span>);<br>    std::cin.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);std::cout.<span class="hljs-built_in">tie</span>(<span class="hljs-number">0</span>);<br><br>    fac[<span class="hljs-number">0</span>]=<span class="hljs-number">1</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">1</span>;i&lt;=<span class="hljs-number">1000000</span>;i++)<br>        fac[i]=<span class="hljs-number">1ll</span>*i*fac[i<span class="hljs-number">-1</span>]%mod;<br>    facinv[<span class="hljs-number">1000000</span>]=<span class="hljs-number">490058372</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">999999</span>;i&gt;=<span class="hljs-number">0</span>;i--)<br>        facinv[i]=<span class="hljs-number">1ll</span>*facinv[i<span class="hljs-number">+1</span>]*(i<span class="hljs-number">+1</span>)%mod;<br><br>    <span class="hljs-type">int</span> T=<span class="hljs-number">1</span>;<br>    cin&gt;&gt;T;<br>    <span class="hljs-keyword">while</span>(T--)<br>        <span class="hljs-built_in">solve</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>algorithm</category>
+      </categories>
+      <tags>
+        <tag>algorithm</tag>
+        <tag>math</tag>
+        <tag>算法</tag>
+        <tag>数学</tag>
+      </tags>
+  </entry>
+</search>
