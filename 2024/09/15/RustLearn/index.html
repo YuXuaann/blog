@@ -193,7 +193,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/Rust/" style="color: #ffa2c4">
+                <a href="/tags/Rust/" style="color: #03a9f4">
                     Rust
                 </a>
             </span>
@@ -207,16 +207,14 @@
 <span id="more"></span>
 
 <h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ol>
-<li>Rust 中的每一个值都有一个 所有者（owner）</li>
-<li>值在任一时刻有且只有一个所有者</li>
-<li>当所有者（变量）离开作用域，这个值将被丢弃</li>
-<li>所有权举例</li>
-</ol>
-<pre><code class="cpp">for(int i=0;i&lt;=10;i++) &#123;
-  cout&lt;&lt;&quot;1&quot;&lt;&lt;&#39;\n;
-&#125;
-</code></pre>
-<pre><code class="cpp">fn main() &#123;
+<li><p>Rust 中的每一个值都有一个 所有者（owner）</p>
+</li>
+<li><p>值在任一时刻有且只有一个所有者</p>
+</li>
+<li><p>当所有者（变量）离开作用域，这个值将被丢弃</p>
+</li>
+<li><p>所有权举例</p>
+<pre><code class="rust">fn main() &#123;
     let s = String::from(&quot;hello&quot;);  // s 进入作用域
 
 
@@ -240,8 +238,9 @@ fn makes_copy(some_integer: i32) &#123; // some_integer 进入作用域
     println!(&quot;&#123;&#125;&quot;, some_integer);
 &#125; // 这里，some_integer 移出作用域。没有特殊之处
 </code></pre>
-<ol start="5">
-<li>变量的所有权总是遵循相同的模式：将值赋给另一个变量时移动它。当持有堆中数据值的变量离开作用域时，其值将通过 drop 被清理掉，除非数据被移动为另一个变量所有</li>
+</li>
+<li><p>变量的所有权总是遵循相同的模式：将值赋给另一个变量时移动它。当持有堆中数据值的变量离开作用域时，其值将通过 drop 被清理掉，除非数据被移动为另一个变量所有</p>
+</li>
 </ol>
 <h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
 <li><p>rust 的引用默认为<strong>常</strong>引用，可变引用前面需要加入<code>&amp;mut</code></p>
