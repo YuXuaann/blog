@@ -69,219 +69,387 @@ int main() &#123;
       </tags>
   </entry>
   <entry>
-    <title>Rust随笔</title>
-    <url>/2024/09/15/RustLearn/</url>
-    <content><![CDATA[<p>Rust的核心——所有权：一个变量在任意时刻，只能拥有一个可变引用或任意数量的不可变引用之一</p>
+    <title>OS学习随笔</title>
+    <url>/2024/10/04/OSLearn/</url>
+    <content><![CDATA[<p>OS是建立在上层软件和下层硬件之间的重要桥梁.</p>
 <span id="more"></span>
 
-<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ol>
-<li><p>Rust 中的每一个值都有一个 所有者（owner）</p>
-</li>
-<li><p>值在任一时刻有且只有一个所有者</p>
-</li>
-<li><p>当所有者（变量）离开作用域，这个值将被丢弃</p>
-</li>
-<li><p>所有权举例</p>
-<pre><code class="rust">fn main() &#123;
-    let s = String::from(&quot;hello&quot;);  // s 进入作用域
+<p>源自<a href="https://rcore-os.cn/rCore-Tutorial-Book-v3/">rCore-Tutorial-Book</a></p>
+<h2 id="RISC-V-寄存器编号和别名"><a href="#RISC-V-寄存器编号和别名" class="headerlink" title="RISC-V 寄存器编号和别名"></a>RISC-V 寄存器编号和别名</h2><table>
+<thead>
+<tr>
+<th align="center">寄存器</th>
+<th align="center">别名</th>
+<th align="center">全称</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">$x_0$</td>
+<td align="center">$zero$</td>
+<td align="center">零寄存器</td>
+<td align="center">写无效</td>
+</tr>
+<tr>
+<td align="center">$x_1$</td>
+<td align="center"><strong>$ra$</strong></td>
+<td align="center">链接寄存器</td>
+<td align="center">函数返回地址</td>
+</tr>
+<tr>
+<td align="center">$x_2$</td>
+<td align="center"><strong>$sp$</strong></td>
+<td align="center">栈指针寄存器</td>
+<td align="center">指向下一个将要被存储的栈顶位置</td>
+</tr>
+<tr>
+<td align="center">$x_3$</td>
+<td align="center">$gp$</td>
+<td align="center">全局指针寄存器</td>
+<td align="center">全局变量指针（基地址）</td>
+</tr>
+<tr>
+<td align="center">$x_4$</td>
+<td align="center">$tp$</td>
+<td align="center">线程指针寄存器</td>
+<td align="center">线程指针（基地址）</td>
+</tr>
+<tr>
+<td align="center">$x_5$~$x_7$</td>
+<td align="center">$t_0$~$t_2$</td>
+<td align="center">临时寄存器</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">$x_8$</td>
+<td align="center">$s_0$&#x2F;$fp$</td>
+<td align="center">帧指针寄存器</td>
+<td align="center">临时寄存器&#x2F;指向当前函数调用的栈帧的基地址</td>
+</tr>
+<tr>
+<td align="center">$x_9$</td>
+<td align="center">$s_1$</td>
+<td align="center"></td>
+<td align="center">用于函数调用，被调用函数需要保存的数据</td>
+</tr>
+<tr>
+<td align="center">$x_{10}$~$x_{17}$</td>
+<td align="center">$a_0$~$a_7$</td>
+<td align="center"></td>
+<td align="center">用于函数调用，传递参数和返回值</td>
+</tr>
+<tr>
+<td align="center">$x_{18}$~$x_{27}$</td>
+<td align="center">$s_2$~$s_{11}$</td>
+<td align="center"></td>
+<td align="center">用于函数调用，被调用函数需要保存的数据</td>
+</tr>
+<tr>
+<td align="center">$x_{28}$~$x_{31}$</td>
+<td align="center">$t_3$~$t_6$</td>
+<td align="center"></td>
+<td align="center">临时寄存器</td>
+</tr>
+</tbody></table>
+</br>
+</br>
 
-
-    takes_ownership(s);             // s 的值移动到函数里 ...
-                                    // ... 所以到这里不再有效里
-
-    let x = 5;                      // x 进入作用域
-
-    makes_copy(x);                  // x 应该移动函数里，
-                                    // 但 i32 是 Copy 的，
-                                    // 所以在后面可继续使用 x
-&#125; // 这里，x 先移出了作用域，然后是 s。但因为 s 的值已被移走，
-// 没有特殊之处
-
-fn takes_ownership(some_string: String) &#123; // some_string 进入作用域
-    println!(&quot;&#123;&#125;&quot;, some_string);
-&#125; // 这里，some_string 移出作用域并调用 `drop` 方法。
-// 占用的内存被释放
-
-fn makes_copy(some_integer: i32) &#123; // some_integer 进入作用域
-    println!(&quot;&#123;&#125;&quot;, some_integer);
-&#125; // 这里，some_integer 移出作用域。没有特殊之处
-</code></pre>
-</li>
-<li><p>变量的所有权总是遵循相同的模式：将值赋给另一个变量时移动它。当持有堆中数据值的变量离开作用域时，其值将通过 drop 被清理掉，除非数据被移动为另一个变量所有</p>
+<table>
+<thead>
+<tr>
+<th align="center">CSR 寄存器</th>
+<th align="center">全称</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">mstatus</td>
+<td align="center"></td>
+<td align="center">存储全局的机器状态信息</td>
+</tr>
+<tr>
+<td align="center">mepc</td>
+<td align="center"></td>
+<td align="center">存储发生异常时的程序计数器值</td>
+</tr>
+<tr>
+<td align="center">mcause</td>
+<td align="center"></td>
+<td align="center">存储导致异常的原因</td>
+</tr>
+<tr>
+<td align="center">mtval</td>
+<td align="center">Machine Trap Value</td>
+<td align="center">存储与异常相关的附加信息</td>
+</tr>
+<tr>
+<td align="center">mscratch</td>
+<td align="center">Scratch</td>
+<td align="center">用于异常处理程序的临时存储</td>
+</tr>
+<tr>
+<td align="center">mie</td>
+<td align="center"></td>
+<td align="center">控制各类中断的使能</td>
+</tr>
+<tr>
+<td align="center">mip</td>
+<td align="center"></td>
+<td align="center">指示各类中断的挂起状态</td>
+</tr>
+<tr>
+<td align="center">sstatus</td>
+<td align="center"></td>
+<td align="center">存储全局的监督者模式状态信息</td>
+</tr>
+<tr>
+<td align="center">sepc</td>
+<td align="center">Exception PC</td>
+<td align="center">存储发生异常时的程序计数器值</td>
+</tr>
+<tr>
+<td align="center">scause</td>
+<td align="center"></td>
+<td align="center">存储导致陷阱的原因</td>
+</tr>
+<tr>
+<td align="center">stval</td>
+<td align="center"></td>
+<td align="center">存储与陷阱相关的附加信息</td>
+</tr>
+<tr>
+<td align="center">stvec</td>
+<td align="center"></td>
+<td align="center">存储异常处理程序的入口地址</td>
+</tr>
+<tr>
+<td align="center">sscratch</td>
+<td align="center"></td>
+<td align="center">用于监督者模式异常处理程序的临时存储</td>
+</tr>
+<tr>
+<td align="center">sie</td>
+<td align="center"></td>
+<td align="center">控制监督者模式下各类中断的使能</td>
+</tr>
+<tr>
+<td align="center">sip</td>
+<td align="center"></td>
+<td align="center">指示监督者模式下各类中断的挂起状态</td>
+</tr>
+</tbody></table>
+<h2 id="操作系统基本知识"><a href="#操作系统基本知识" class="headerlink" title="操作系统基本知识"></a>操作系统基本知识</h2><h3 id="系统软件"><a href="#系统软件" class="headerlink" title="系统软件"></a>系统软件</h3><ol>
+<li>定义：为计算机系统提供基本功能，并在计算机系统范围内使用的软件，其作用可涉及到整个计算机系统。</li>
+<li>包括：<strong>操作系统内核</strong>、驱动程序、工具软件、用户界面、软件库等</li>
+<li>操作系统内核是负责控制计算机的硬件资源并为用户和应用程序提供服务，操作系统也算是一种系统软件</li>
+</ol>
+<h3 id="执行环境"><a href="#执行环境" class="headerlink" title="执行环境"></a>执行环境</h3><p><img src="/2024/10/04/OSLearn/exe_env.png" alt="alt text"></p>
+<ol>
+<li>操作系统的定义可以被简化为: <strong>应用程序的软件执行环境</strong></li>
+</ol>
+<h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><ol>
+<li>真定义：操作系统是一种系统软件，主要功能是向下管理CPU、内存和各种外设等硬件资源，并形成软件执行环境来向上管理和服务应用软件；操作系统对计算机硬件重要组成的抽象和虚拟化，有助于应用程序开发</li>
+<li>主要组成：内核、系统工具和软件库、用户接口</li>
+<li>API: 应用程序接口，是操作系统提供给应用程序的接口，是不同二进制代码片段的纽带</li>
+<li>ABI: 定义了二进制机器代码级别的规则，例如寄存器怎么用，是用来约束链接器 (Linker) 和汇编器 (Assembler) 的；操作系统主要通过基于 ABI 的系统调用接口来给应用程序提供上述服务</li>
+</ol>
+<h3 id="控制流上下文"><a href="#控制流上下文" class="headerlink" title="控制流上下文"></a>控制流上下文</h3><ol>
+<li>定义：确保下一时刻能继续 正确 执行控制流指令的物理资源内容</li>
+<li>异常控制流<ol>
+<li>中断：外设引起的I&#x2F;O操作，与<strong>CPU无关</strong></li>
+<li>异常：CPU执行过程中发现的</li>
+<li>陷入( <code>trap</code> )：操作系统需要执行系统调用服务</li>
+</ol>
 </li>
 </ol>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
-<li><p>rust 的引用默认为<strong>常</strong>引用，可变引用前面需要加入<code>&amp;mut</code></p>
-</li>
-<li><p>无论是调用函数传参数，引用符都需要</p>
-</li>
-<li><p>Rust 也会将可变引用强转为不可变引用。但是反之是 不可能 的：不可变引用永远也不能强转为可变引用</p>
-</li>
-<li><p>在任意给定时刻，只能拥有一个可变引用或任意数量的不可变引用 之一（而不是两者）</p>
-</li>
-<li><p>引用必须总是有效的</p>
-</li>
-<li><p>引用举例</p>
-<pre><code class="rust">fn plus1(x: &amp;mut i32) &#123;
-    *x = *x + 1;
-&#125;
-</code></pre>
-</li>
+<h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><ol>
+<li>定义：一个正在运行的程序实例，它自己认为拥有整个地址空间，占有整个CPU；精确定义：一个进程是一个具有一定独立功能的程序在一个数据集合上的一次动态执行过程</li>
 </ol>
-<h2 id="枚举和模式匹配"><a href="#枚举和模式匹配" class="headerlink" title="枚举和模式匹配"></a>枚举和模式匹配</h2><ol>
-<li>if let 是 match 的一个语法糖，它当值匹配某一模式时执行代码而忽略所有其他值</li>
+<h3 id="地址空间"><a href="#地址空间" class="headerlink" title="地址空间"></a>地址空间</h3><ol>
+<li>定义：是对物理内存的虚拟化和抽象，也称虚存 (Virtual Memory)</li>
 </ol>
-<h2 id="模块树"><a href="#模块树" class="headerlink" title="模块树"></a>模块树</h2><ol>
-<li><p>模块树应该定义在 src&#x2F;lib.rs 中</p>
+<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><ol>
+<li>文件 (File) 主要用于对持久存储的抽象，并进一步扩展到为外设的抽象</li>
+</ol>
+<h3 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h3><ol>
+<li>任务 (Task) : 应用程序的一次执行过程(也是一段控制流)，应用程序在一个时间片段内的执行过程称为任务片</li>
+<li>任务切换：两个不同应用在内核中 <code>trap</code> 流的切换</li>
+<li>任务上下文：在任务切换的 <code>trap</code> 流中所需要保存的上下文</li>
+</ol>
+<h2 id="Qemu-启动流程"><a href="#Qemu-启动流程" class="headerlink" title="Qemu 启动流程"></a>Qemu 启动流程</h2><ol>
+<li>Qemu CPU 的起始 PC 地址为<code>0x1000</code>，在 Qemu 中内嵌了几条指令，用于初始化 CPU，然后跳转到<code>0x80000000</code>处执行</li>
+<li>物理内存的起始物理地址为<code>0x80000000</code>，这一阶段需要进行各个设备的初始化，所以在这里交由 Bootloader 来完成，完成后跳转到 Kernel 的入口地址</li>
+<li>在 RustSBI 的 Bootloader 中，会将 Kernel 加载到<code>0x80200000</code>处，所以我们需要把内核镜像加载到这个地址</li>
+</ol>
+<h2 id="gdb调试常用命令"><a href="#gdb调试常用命令" class="headerlink" title="gdb调试常用命令"></a>gdb调试常用命令</h2><ol>
+<li><code>b</code>：设置断点</li>
+<li><code>r</code>：运行程序</li>
+<li><code>c</code>：继续运行</li>
+<li><code>n</code>：单步执行</li>
+<li><code>s</code>：单步执行，如果遇到函数调用则进入函数</li>
+<li><code>p</code>：打印变量的值</li>
+<li><code>bt</code>：查看函数调用栈</li>
+<li><code>q</code>：退出gdb</li>
+<li><code>p/d $x1</code>：查看<code>x1</code>寄存器的值</li>
+<li><code>x/10i $pc</code>：查看当前指令附近的10条指令</li>
+</ol>
+<h2 id="内存布局"><a href="#内存布局" class="headerlink" title="内存布局"></a>内存布局</h2><p><img src="/2024/10/04/OSLearn/mem.png" alt="内存布局"></p>
+<ol>
+<li>数据部分<ul>
+<li>未初始化数据段(<code>.bss</code>)，存放未初始化的全局数据，通常由程序的加载者代为进行零初始化，即将这块区域逐字节清零</li>
+<li>初始化数据段(<code>.rodata</code>、<code>.data</code>)，前者存放只读的全局数据，通常是一些常量；而后者存放可修改的全局数据</li>
+<li>堆：存放程序动态分配的内存，例如<code>malloc</code>函数</li>
+<li>栈：存放函数的局部变量、函数参数、返回地址等，栈是向下增长的</li>
+</ul>
 </li>
-<li><p>use 的使用规范，晰地表明函数不是在本地定义的，同时使完整路径的重复度最小化</p>
-<ul>
-<li><p>正确 ✅</p>
-<pre><code class="rust">use crate::a::b;
-
-pub fn Some_function() &#123;
-    b::fn1();
-&#125;
-</code></pre>
-</li>
-<li><p>错误 ❎</p>
-<pre><code class="rust">use crate::a::b::fn1;
-
-pub fn Some_function() &#123;
-    fn1();
-&#125;
-</code></pre>
-</li>
+<li>代码部分<ul>
+<li>代码段(<code>.text</code>)：存放程序的机器指令，通常是只读的</li>
 </ul>
 </li>
 </ol>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ol>
-<li>mod 关键字声明了模块，而 Rust 会在与模块同名的文件中查找模块的代码。</li>
+<h2 id="编译流程"><a href="#编译流程" class="headerlink" title="编译流程"></a>编译流程</h2><ol>
+<li>编译：高级语言编译器将源代码编译成汇编代码</li>
+<li>汇编：汇编器将汇编代码转换成机器码</li>
+<li>链接：链接器将机器码和库文件链接成可执行文件，将各段放置在内存的合适位置</li>
 </ol>
-<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><ol>
-<li>Rust 会将每种情况下的泛型代码编译为具体类型，使用泛型没有运行时开销。当代码运行时，它的执行效率就跟好像手写每个具体定义的重复代码一样。这个单态化过程正是 Rust 泛型在运行时极其高效的原因。</li>
-</ol>
-<h2 id="trait"><a href="#trait" class="headerlink" title="trait"></a>trait</h2><ol>
-<li><p>类似于 c 的基类，声明函数但不实现，它用来定义一组可以被不同类型实现的行为（类似于接口）</p>
-</li>
-<li><p>好用的<code>where</code>定语从句</p>
-<pre><code class="rust">fn some_function&lt;T, U&gt;(t: &amp;T, u: &amp;U) -&gt; i32
-where
-    T: Display + Clone,
-    U: Clone + Debug,
-</code></pre>
-</li>
-</ol>
-<h2 id="生命周期-lifetime"><a href="#生命周期-lifetime" class="headerlink" title="生命周期 lifetime"></a>生命周期 lifetime</h2><ol>
-<li><p>举例</p>
-<pre><code class="rust">fn main() &#123;
-    let r;                // ---------+-- &#39;a
-                          //          |
-    &#123;                     //          |
-        let x = 5;        // -+-- &#39;b  |
-        r = &amp;x;           //  |       |
-    &#125;                     // -+       |
-                          //          |
-    println!(&quot;r: &#123;r&#125;&quot;);   //          |
-&#125;                         // ---------+
-</code></pre>
-<ul>
-<li>这里将 r 的生命周期标记为 ‘a 并将 x 的生命周期标记为 ‘b。</li>
+<h2 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h2><p><img src="/2024/10/04/OSLearn/call_func.png" alt="函数调用"></p>
+<ol>
+<li>函数调用上下文 (Function Call Context)：由于函数调用，在控制流转移前后需要保持不变的寄存器集合</li>
+<li>CALL 函数时，上下文将保存在内存里；从函数 Return 时，上下文将恢复到寄存器中</li>
+<li>调用者和被调用者合作保存寄存器<ul>
+<li>调用者保存不希望在函数调用中发生变化的寄存器，在函数调用返回后调用子函数恢复($a_0 ~ a_7$、$t_0 ~ t_6$)</li>
+<li>被调用者在函数起始保存执行过程中会发生变化的寄存器，在函数退出之前恢复($s_0 ~ s_{11}$、 $r_a$、 $s_p$、 $f_p$)</li>
+<li><img src="/2024/10/04/OSLearn/fp_sp.png" alt="fp和sp"></li>
 </ul>
 </li>
-<li><p>Rust 编译器有一个 借用检查器（borrow checker），它比较作用域来确保所有的借用都是有效的</p>
+</ol>
+<h2 id="特权等级"><a href="#特权等级" class="headerlink" title="特权等级"></a>特权等级</h2><p><img src="/2024/10/04/OSLearn/exe_env_stack.png" alt="执行环境栈"></p>
+<ol>
+<li><p><code>ecall</code> 具有用户态到内核态的执行环境切换能力的函数调用指令；</p>
+<p><img src="/2024/10/04/OSLearn/ecall.png" alt="ecall"></p>
 </li>
-<li><p>生命周期语法是用于将函数的多个参数与其返回值的生命周期进行关联的</p>
+<li><p><code>sret</code> ：具有内核态到用户态的执行环境切换能力的函数返回指令。</p>
 </li>
-<li><p>也可以定义包含引用的结构体，不过这需要为结构体定义中的每一个引用添加生命周期注解</p>
+<li><p>监控管理：当上层软件执行的时候出现了一些异常或特殊情况，导致需要用到执行环境中提供的功能，因此需要暂停上层软件的执行，转而运行执行环境的代码</p>
 </li>
-<li><p>这里有一种特殊的生命周期值得讨论：’static，其生命周期能够存活于整个程序期间。所有的字符串字面值都拥有 ‘static 生命周期</p>
+<li><p>断点&#x2F;执行环境调用：陷入类指令或trap类指令</p>
+</li>
+<li><p>低特权级软件的要求超出了其能力范围，就必须寻求高特权级软件的帮助，否则就是一种异常行为了</p>
+</li>
+<li><p>低特权级的软件的某条指令发生了某种错误(除零、无效地址访问、无效指令、执行高特权级指令等)，触发异常，交由高特权级软件(如os)处理，由它判断恢复&#x2F;杀死</p>
 </li>
 </ol>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ol>
-<li>为了编写集成测试，需要在项目根目录创建一个 tests 目录，与 src 同级</li>
-</ol>
-<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><ol>
-<li><code>unwrap_or_else</code> 是 Rust 标准库中 <code>Option</code> 和 <code>Result</code> 类型的方法，用于处理可能为空的值（<code>Option</code>）或可能出错的值（<code>Result</code>）。它允许你在 <code>Option</code> 为 <code>None</code> 或 <code>Result</code> 为 <code>Err</code> 时提供一个备用值或执行一个闭包。</li>
-<li>闭包（Closure）是 Rust 中的一种匿名函数，可以捕获其环境中的变量。</li>
-<li>闭包与函数的区别<ol>
-<li>捕获环境：闭包可以捕获其定义环境中的变量，而函数不能。</li>
-<li>类型推断：闭包可以自动推断参数和返回值的类型，而函数需要显式声明类型。</li>
-<li>灵活性：闭包可以存储在变量中，作为参数传递给其他函数，甚至可以作为返回值。</li>
-</ol>
-</li>
-<li>同一闭包不能使用不同类型的参数，否则就会得到类型错误</li>
-<li>闭包定义时，它会捕获变量的可变引用（如果这个闭包会改变变量的话）</li>
-<li>调用闭包时，如果变量所有权被夺走，那么变量就不在闭包环境中，相当于只能调用一次闭包，需要注意这种情况</li>
-</ol>
-<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><ol>
-<li><p>需要注意的是，从 next 调用中获取的值是对 vector 中值的不可变引用。iter 方法生成一个不可变引用的迭代器</p>
-</li>
-<li><p>如果我们需要一个获取 变量 所有权并返回拥有所有权的迭代器，则可以调用 into_iter 而不是 iter</p>
-</li>
-<li><p>使用 into_iter 会获取所有权并消耗，返回一个拥有所有权的迭代器，适用于需要转移所有权的情况</p>
-</li>
-<li><p>使用 iter 会借用 变量，返回一个不可变引用的迭代器，适用于不需要转移所有权的情况</p>
-<pre><code class="rust">let v1 = vec![1, 2, 3];
-let v2: Vec&lt;_&gt; = v1.into_iter().filter(|x/*&amp;i32*/| *x == 2).collect();
-//-------------------------------------------------------------------
-let v1 = vec![1, 2, 3];
-let v2: Vec&lt;_&gt; = v1.iter().filter(|x/*&amp;&amp;i32*/| x == 2).collect();
+<h2 id="ch2-邓氏鱼操作系统"><a href="#ch2-邓氏鱼操作系统" class="headerlink" title="ch2 邓氏鱼操作系统"></a>ch2 邓氏鱼操作系统</h2><table>
+<thead>
+<tr>
+<th align="center">功能</th>
+<th align="center">进度</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">批处理系统</td>
+<td align="center">✔️</td>
+<td align="center">用来自动安排程序的执行</td>
+</tr>
+<tr>
+<td align="center">系统调用服务</td>
+<td align="center">✔️</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">多道程序</td>
+<td align="center">✖️</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">分时多任务</td>
+<td align="center">✖️</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">动态分配内存</td>
+<td align="center">✖️</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>它对于用户程序调用系统函数的实现</p>
+<pre><code class="text">//!                     存储trap上下文                                恢复trap上下文
+//! 用户程序 -&gt; ecall -&gt; __alltraps -&gt; trap_handler(UserEnvCall) -&gt; __restore(含sret) -&gt; 用户程序
+//!    U     -&gt;   S  -&gt;      S      -&gt;             S             -&gt;         S         -&gt;    U
 </code></pre>
 </li>
-<li><p>如果我们希望迭代可变引用，可以调用 iter_mut 而不是 iter</p>
+<li><p>它对于执行应用程序的实现</p>
+<ol>
+<li>构造启动应用程序所需 <code>trap</code> 上下文，具体包含：全部为0的寄存器、sp寄存器设定为用户栈指针、特权态为用户态、return_addr设定为应用起始地址</li>
+<li>压入内核栈，并返回栈指针</li>
+<li>调用 <code>_restore</code> 进U态执行用户程序</li>
+</ol>
 </li>
 </ol>
-<h2 id="并行编程"><a href="#并行编程" class="headerlink" title="并行编程"></a>并行编程</h2><ul>
-<li>所有权规则在消息传递中扮演了重要角色，其有助于我们编写安全的并发代码。防止并发编程中的错误是在 Rust 程序中考虑所有权的一大优势。</li>
-</ul>
-<h2 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h2><ol>
-<li><p><code>Rc&lt;T&gt;</code> 允许相同数据有多个所有者；<code>Box&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 有单一所有者。</p>
+<h2 id="ch3-始初龙操作系统、腔骨龙操作系统"><a href="#ch3-始初龙操作系统、腔骨龙操作系统" class="headerlink" title="ch3 始初龙操作系统、腔骨龙操作系统"></a>ch3 始初龙操作系统、腔骨龙操作系统</h2><table>
+<thead>
+<tr>
+<th align="center">功能</th>
+<th align="center">进度</th>
+<th align="center">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">批处理系统</td>
+<td align="center">✔️</td>
+<td align="center">处理器只能一次运行一个程序，运行完毕才能运行下一个</td>
+</tr>
+<tr>
+<td align="center">系统调用服务</td>
+<td align="center">✔️</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">多道程序</td>
+<td align="center">✔️</td>
+<td align="center">处理器可以交错执行多个程序，程序可以主动或被动放弃执行</td>
+</tr>
+<tr>
+<td align="center">分时多任务</td>
+<td align="center">✔️</td>
+<td align="center">操作系统管理每个应用程序，以<strong>时间片</strong>为单位来分时占用处理器</td>
+</tr>
+<tr>
+<td align="center">动态分配内存</td>
+<td align="center">✖️</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<ol>
+<li><p>在内存中同一时间可以驻留多个应用，而且所有的应用都是在系统启动的时候分别加载到内存的不同区域中</p>
 </li>
-<li><p><code>Box&lt;T&gt;</code> 允许在编译时执行不可变或可变借用检查；<code>Rc&lt;T&gt;</code> 仅允许在编译时执行不可变借用检查；<code>RefCell&lt;T&gt;</code> 允许在运行时执行不可变或可变借用检查。</p>
+<li><p>同一时间最多只有一个应用在执行（目前是单核），但是应用可以发出 <code>yield</code> 请求主动放弃占用处理器</p>
 </li>
-<li><p>因为 <code>RefCell&lt;T&gt;</code> 允许在运行时执行可变借用检查，所以我们可以在即便 <code>RefCell&lt;T&gt;</code> 自身是不可变的情况下修改其内部的值，例如：</p>
-<pre><code class="rust">pub trait Base &#123;
-    fn send(&amp;self, msg: &amp;str);
-&#125;
-
-//...
-
-pub sturct Instance &#123;
-    messages: Vec&lt;String&gt;,
-&#125;
-
-impl Base for Instance &#123;
-    fn send(&amp;self, message: &amp;str) &#123;
-        // Wrong!! 不能更改可变引用的变量
-        // self.messages.push(String::from(message));
-
-        // Right!! 使用RefCell强行更改
-        self.messages.borrow_mut().push(String::from(message));
-    &#125;
-&#125;
+<li><p>它对于执行应用程序(任务)的实现</p>
+<pre><code class="text">//!                                存储trap上下文                                                      恢复trap上下文
+//! 用户程序 -&gt; ecall(sys_yield) -&gt; __alltraps -&gt; trap_handler(UserEnvCall) -&gt; __switch(cur,next) -&gt; __restore(含sret) -&gt; 用户程序
+//!    U     -&gt;   S              -&gt;      S     -&gt;             S             -&gt;         S          -&gt;         S         -&gt;    U
 </code></pre>
+<ol>
+<li>构造启动应用程序所需 <code>trap</code> 上下文，压入所有程序的内核栈；并且构造所有应用程序的初始任务上下文，设置 <code>ra = __restore</code> ，若是执行第一个任务，则构造一个空任务上下文与之 <code>__switch</code> ; 若非第一个任务，则 <code>__switch(current_task_cx, next_task_cx)</code></li>
+<li><code>switch</code> 结束后，返回到 <code>_restore</code> 进U态执行用户程序</li>
+</ol>
 </li>
-<li><p>注意 <code>RefCell&lt;T&gt;</code> 不能用于多线程代码！</p>
-</li>
-<li><p>避免出现引用循环</p>
+<li><p>分时多任务：把用户态下应用程序主动发出的 <code>yield</code> 请求改成时钟中断即可，两者的本质 <code>__switch</code>  是一样的</p>
 </li>
 </ol>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
-<li><p>使用<code>.collect()</code>时一定要明确指出变量类型</p>
-<pre><code class="rust">    let v2 = v1.iter().map(|x| x + 1).collect();
-        ^^                            ------- type must be known at this point
-</code></pre>
-</li>
-<li><p>一旦获取了锁，就可以将返回值视为一个其内部数据的可变引用了</p>
-</li>
+<li>batch一般指批处理，而job一般指作业</li>
+<li>fd 通常是文件描述符（File Descriptor）的缩写</li>
 </ol>
 ]]></content>
       <categories>
         <category>learn</category>
       </categories>
       <tags>
-        <tag>Rust</tag>
+        <tag>OS</tag>
       </tags>
   </entry>
   <entry>
@@ -472,6 +640,295 @@ impl Base for Instance &#123;
         <tag>majsoul</tag>
         <tag>麻将</tag>
         <tag>雀魂</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Rust随笔</title>
+    <url>/2024/09/15/RustLearn/</url>
+    <content><![CDATA[<p>Rust的核心——所有权：一个变量在任意时刻，只能拥有一个可变引用或任意数量的不可变引用之一</p>
+<span id="more"></span>
+
+<p>学习链接：<a href="https://kaisery.github.io/trpl-zh-cn">Rust 程序设计语言</a></p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ol>
+<li><p>Rust 中的每一个值都有一个 所有者（owner）</p>
+</li>
+<li><p>值在任一时刻有且只有一个所有者</p>
+</li>
+<li><p>当所有者（变量）离开作用域，这个值将被丢弃</p>
+</li>
+<li><p>所有权举例</p>
+<pre><code class="rust">fn main() &#123;
+    let s = String::from(&quot;hello&quot;);  // s 进入作用域
+    
+
+    takes_ownership(s);             // s 的值移动到函数里 ...
+                                    // ... 所以到这里不再有效里
+
+    let x = 5;                      // x 进入作用域
+
+    makes_copy(x);                  // x 应该移动函数里，
+                                    // 但 i32 是 Copy 的，
+                                    // 所以在后面可继续使用 x
+&#125; // 这里，x 先移出了作用域，然后是 s。但因为 s 的值已被移走，
+// 没有特殊之处
+
+fn takes_ownership(some_string: String) &#123; // some_string 进入作用域
+    println!(&quot;&#123;&#125;&quot;, some_string);
+&#125; // 这里，some_string 移出作用域并调用 `drop` 方法。
+// 占用的内存被释放
+
+fn makes_copy(some_integer: i32) &#123; // some_integer 进入作用域
+    println!(&quot;&#123;&#125;&quot;, some_integer);
+&#125; // 这里，some_integer 移出作用域。没有特殊之处
+</code></pre>
+</li>
+<li><p>变量的所有权总是遵循相同的模式：将值赋给另一个变量时移动它。当持有堆中数据值的变量离开作用域时，其值将通过 drop 被清理掉，除非数据被移动为另一个变量所有</p>
+</li>
+</ol>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
+<li><p>rust的引用默认为<strong>常</strong>引用，可变引用前面需要加入<code>&amp;mut</code></p>
+</li>
+<li><p>无论是调用函数传参数，引用符都需要</p>
+</li>
+<li><p>Rust 也会将可变引用强转为不可变引用。但是反之是 不可能 的：不可变引用永远也不能强转为可变引用</p>
+</li>
+<li><p>在任意给定时刻，只能拥有一个可变引用或任意数量的不可变引用 之一（而不是两者）</p>
+</li>
+<li><p>引用必须总是有效的</p>
+</li>
+<li><p>引用举例</p>
+<pre><code class="rust">fn plus1(x: &amp;mut i32) &#123;
+    *x = *x + 1;
+&#125;
+</code></pre>
+</li>
+</ol>
+<h2 id="枚举和模式匹配"><a href="#枚举和模式匹配" class="headerlink" title="枚举和模式匹配"></a>枚举和模式匹配</h2><ol>
+<li>if let 是 match 的一个语法糖，它当值匹配某一模式时执行代码而忽略所有其他值</li>
+</ol>
+<h2 id="模块树"><a href="#模块树" class="headerlink" title="模块树"></a>模块树</h2><ol>
+<li><p>模块树应该定义在 src&#x2F;lib.rs 中</p>
+</li>
+<li><p>use的使用规范，晰地表明函数不是在本地定义的，同时使完整路径的重复度最小化</p>
+<ul>
+<li><p>正确✅</p>
+<pre><code class="rust">use crate::a::b;
+
+pub fn Some_function() &#123;
+    b::fn1();
+&#125;
+</code></pre>
+</li>
+<li><p>错误❎</p>
+<pre><code class="rust">use crate::a::b::fn1;
+
+pub fn Some_function() &#123;
+    fn1();
+&#125;
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ol>
+<li>mod 关键字声明了模块，而 Rust 会在与模块同名的文件中查找模块的代码。</li>
+</ol>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><ol>
+<li>Rust 会将每种情况下的泛型代码编译为具体类型，使用泛型没有运行时开销。当代码运行时，它的执行效率就跟好像手写每个具体定义的重复代码一样。这个单态化过程正是 Rust 泛型在运行时极其高效的原因。</li>
+</ol>
+<h2 id="trait"><a href="#trait" class="headerlink" title="trait"></a>trait</h2><p><img src="/2024/09/15/RustLearn/trait.png" alt="trait"></p>
+<ol>
+<li><p>特征。类似于c的基类，声明函数但可以不实现，它用来定义一组可以被不同类型实现的行为</p>
+</li>
+<li><p>好用的<code>where</code>定语从句</p>
+<pre><code class="rust">fn some_function&lt;T, U&gt;(t: &amp;T, u: &amp;U) -&gt; i32
+where
+    T: Display + Clone,
+    U: Clone + Debug,
+</code></pre>
+</li>
+<li><p>调用关系，如果一个<code>struct</code>钟实现两个同名函数，需要使用类似<code>trait1::fn1(&amp;struct0_varible_name);</code>方法调用</p>
+</li>
+<li><p>对于3的歧义情况，使用 完全限定语法是调用函数时最为明确的方式，例如<code>&lt;struct0 as trait1&gt;::fn1()</code></p>
+</li>
+</ol>
+<h2 id="生命周期-lifetime"><a href="#生命周期-lifetime" class="headerlink" title="生命周期 lifetime"></a>生命周期 lifetime</h2><ol>
+<li><p>举例</p>
+<pre><code class="rust">fn main() &#123; 
+    let r;                // ---------+-- &#39;a
+                          //          |
+    &#123;                     //          |
+        let x = 5;        // -+-- &#39;b  |
+        r = &amp;x;           //  |       |
+    &#125;                     // -+       |
+                          //          |
+    println!(&quot;r: &#123;r&#125;&quot;);   //          |
+&#125;                         // ---------+
+</code></pre>
+<ul>
+<li>这里将 r 的生命周期标记为 ‘a 并将 x 的生命周期标记为 ‘b。</li>
+</ul>
+</li>
+<li><p>Rust 编译器有一个 借用检查器（borrow checker），它比较作用域来确保所有的借用都是有效的</p>
+</li>
+<li><p>生命周期语法是用于将函数的多个参数与其返回值的生命周期进行关联的</p>
+</li>
+<li><p>也可以定义包含引用的结构体，不过这需要为结构体定义中的每一个引用添加生命周期注解</p>
+</li>
+<li><p>这里有一种特殊的生命周期值得讨论：’static，其生命周期能够存活于整个程序期间。所有的字符串字面值都拥有 ‘static 生命周期</p>
+</li>
+</ol>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ol>
+<li>为了编写集成测试，需要在项目根目录创建一个 tests 目录，与 src 同级</li>
+</ol>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><ol>
+<li><code>unwrap_or_else</code> 是 Rust 标准库中 <code>Option</code> 和 <code>Result</code> 类型的方法，用于处理可能为空的值（<code>Option</code>）或可能出错的值（<code>Result</code>）。它允许你在 <code>Option</code> 为 <code>None</code> 或 <code>Result</code> 为 <code>Err</code> 时提供一个备用值或执行一个闭包。</li>
+<li>闭包（Closure）是 Rust 中的一种匿名函数，可以捕获其环境中的变量。</li>
+<li>闭包与函数的区别<ol>
+<li>捕获环境：闭包可以捕获其定义环境中的变量，而函数不能。</li>
+<li>类型推断：闭包可以自动推断参数和返回值的类型，而函数需要显式声明类型。</li>
+<li>灵活性：闭包可以存储在变量中，作为参数传递给其他函数，甚至可以作为返回值。</li>
+</ol>
+</li>
+<li>同一闭包不能使用不同类型的参数，否则就会得到类型错误</li>
+<li>闭包定义时，它会捕获变量的可变引用（如果这个闭包会改变变量的话）</li>
+<li>调用闭包时，如果变量所有权被夺走，那么变量就不在闭包环境中，相当于只能调用一次闭包，需要注意这种情况</li>
+</ol>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><ol>
+<li><p>需要注意的是，从 next 调用中获取的值是对 vector 中值的不可变引用。iter 方法生成一个不可变引用的迭代器</p>
+</li>
+<li><p>如果我们需要一个获取 变量 所有权并返回拥有所有权的迭代器，则可以调用 into_iter 而不是 iter</p>
+</li>
+<li><p>使用 into_iter 会获取所有权并消耗，返回一个拥有所有权的迭代器，适用于需要转移所有权的情况</p>
+</li>
+<li><p>使用 iter 会借用 变量，返回一个不可变引用的迭代器，适用于不需要转移所有权的情况</p>
+<pre><code class="rust">let v1 = vec![1, 2, 3];
+let v2: Vec&lt;_&gt; = v1.into_iter().filter(|x/*&amp;i32*/| *x == 2).collect();
+//-------------------------------------------------------------------
+let v1 = vec![1, 2, 3];
+let v2: Vec&lt;_&gt; = v1.iter().filter(|x/*&amp;&amp;i32*/| x == 2).collect();
+</code></pre>
+</li>
+<li><p>如果我们希望迭代可变引用，可以调用 iter_mut 而不是 iter</p>
+</li>
+</ol>
+<h2 id="并行编程"><a href="#并行编程" class="headerlink" title="并行编程"></a>并行编程</h2><ul>
+<li>所有权规则在消息传递中扮演了重要角色，其有助于我们编写安全的并发代码。防止并发编程中的错误是在 Rust 程序中考虑所有权的一大优势。</li>
+</ul>
+<h2 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h2><ol>
+<li><p><code>Rc&lt;T&gt;</code> 允许相同数据有多个所有者；<code>Box&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 有单一所有者。</p>
+</li>
+<li><p><code>Box&lt;T&gt;</code> 允许在编译时执行不可变或可变借用检查；<code>Rc&lt;T&gt;</code> 仅允许在编译时执行不可变借用检查；<code>RefCell&lt;T&gt;</code> 允许在运行时执行不可变或可变借用检查。</p>
+</li>
+<li><p>使用 <code>RefCell&lt;T&gt;</code> 能够在外部值被认为是不可变的情况下修改内部值</p>
+</li>
+<li><p>因为 <code>RefCell&lt;T&gt;</code> 允许在运行时执行可变借用检查，所以我们可以在即便 <code>RefCell&lt;T&gt;</code> 自身是不可变的情况下修改其内部的值，例如：</p>
+</li>
+<li><p><code>Cow</code>类型是一个智能指针，它可以指向一个值，这个值可以是引用，也可以是具体的值。<code>Cow</code>是<code>clone on write</code>的缩写，它的主要作用是延迟克隆，只有在需要修改时才会真正克隆数据</p>
+<pre><code class="rust">pub trait Base &#123;
+    fn send(&amp;self, msg: &amp;str);
+&#125;
+
+//...
+
+pub sturct Instance &#123;
+    messages: Vec&lt;String&gt;,
+&#125;
+
+impl Base for Instance &#123;
+    fn send(&amp;self, message: &amp;str) &#123;
+        // Wrong!! 不能更改可变引用的变量
+        // self.messages.push(String::from(message));
+
+        // Right!! 使用RefCell强行更改
+        self.messages.borrow_mut().push(String::from(message));
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>注意 <code>Rc&lt;T&gt;</code> 只能用于单线程场景</p>
+</li>
+<li><p>注意 <code>RefCell&lt;T&gt;</code> 不能用于多线程代码！</p>
+</li>
+<li><p>避免出现引用循环</p>
+</li>
+</ol>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><ol>
+<li><code>Mutex&lt;T&gt;</code>同<code>RefCall&lt;T&gt;</code>都提供了内部可变性，在变量是不可变的情况下修改其值</li>
+</ol>
+<h2 id="特征对象"><a href="#特征对象" class="headerlink" title="特征对象"></a>特征对象</h2><ol>
+<li><code>dyn x</code>表示一个类型，并且这个类型实现了<code>x</code>特征，<code>x</code>是个<code>trait</code></li>
+</ol>
+<h2 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h2><ol>
+<li><p><code>..</code>模式会忽略模式中剩余的任何没有显式匹配的值部分，但不能是有歧义的使用，例如</p>
+<pre><code class="rust">fn main() &#123;
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers &#123;
+        (first, .., last) =&gt; &#123;
+            println!(&quot;Some numbers: &#123;first&#125;, &#123;last&#125;&quot;);
+        &#125;
+
+        // Wrong !
+        // (.., second, ..) =&gt; &#123;
+        //     println!(&quot;Some numbers: &#123;second&#125;&quot;);
+        // &#125;
+    &#125;
+&#125;
+</code></pre>
+</li>
+<li><p>限制形参范围可以用，<code>@</code>后面跟一个范围</p>
+</li>
+</ol>
+<h2 id="不安全代码"><a href="#不安全代码" class="headerlink" title="不安全代码"></a>不安全代码</h2><ol>
+<li><p>Rust 支持全局变量，在 Rust 中又被称为 静态（static）变量</p>
+</li>
+<li><p>访问和修改可变静态变量都是 不安全 的，需要使用<code>unsafe</code>块</p>
+</li>
+<li><p>unsafe举例</p>
+<pre><code class="rust">static mut COUNTER: u32 = 0;
+
+fn add_to_count(inc: u32) &#123;
+    unsafe &#123;
+        COUNTER += inc;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ol>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
+<li><p>使用<code>.collect()</code>时一定要明确指出变量类型</p>
+<pre><code class="rust">    let v2 = v1.iter().map(|x| x + 1).collect();
+        ^^                            ------- type must be known at this point
+</code></pre>
+</li>
+<li><p>一旦获取了锁，就可以将返回值视为一个其内部数据的可变引用了</p>
+</li>
+<li><p>通过在名字前以一个 _ 开头来忽略未使用的变量</p>
+</li>
+<li><p>范围表示<code>a..=b</code></p>
+</li>
+<li><p>类型别名<code>type thunk = Box&lt;dyn Fn() + Send + &#39;static&gt;</code>;</p>
+</li>
+<li><p>asm!用来内联汇编</p>
+</li>
+<li><p>lazy_static! 是一个宏，用于在 Rust 中创建惰性静态变量。惰性静态变量在第一次访问时初始化，而不是在程序启动时初始化。这对于需要在运行时进行复杂初始化的静态变量非常有用。</p>
+</li>
+<li><p>ptr的 add(1) 方法将指针向前移动一个 usize 的位置</p>
+</li>
+<li><p>在 Rust 中，{:#x} 是一种格式化字符串的语法，用于以十六进制格式打印数值，并带有前缀 0x</p>
+</li>
+<li><p>#[no_mangle] 是一个属性（attribute），用于告诉编译器不要对函数名进行名称重整（name mangling）</p>
+</li>
+<li><p>在 Rust 中，感叹号 ! 表示这个函数是一个发散函数（diverging function），即它永远不会返回</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>learn</category>
+      </categories>
+      <tags>
+        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
