@@ -193,7 +193,7 @@
             
             <span class="tag">
                 
-                <a href="/tags/OS/" style="color: #00a596">
+                <a href="/tags/OS/" style="color: #03a9f4">
                     OS
                 </a>
             </span>
@@ -203,7 +203,7 @@
     </div>
     
     <div class="content" v-pre>
-        <p>OS是建立在上层软件和下层硬件之间的重要桥梁.</p>
+        <p>OS是建立在上层软件和下层硬件之间的重要桥梁</p>
 <span id="more"></span>
 
 <p>源自<a target="_blank" rel="noopener" href="https://rcore-os.cn/rCore-Tutorial-Book-v3/">rCore-Tutorial-Book</a></p>
@@ -290,7 +290,7 @@
 <thead>
 <tr>
 <th align="center">CSR 寄存器</th>
-<th align="center">全称</th>
+<th align="center">全称(略去首字母)</th>
 <th align="center">说明</th>
 </tr>
 </thead>
@@ -311,7 +311,7 @@
 </tr>
 <tr>
 <td align="center">mtval</td>
-<td align="center">Machine Trap Value</td>
+<td align="center">Trap Value</td>
 <td align="center">存储与异常相关的附加信息</td>
 </tr>
 <tr>
@@ -328,6 +328,11 @@
 <td align="center">mip</td>
 <td align="center"></td>
 <td align="center">指示各类中断的挂起状态</td>
+</tr>
+<tr>
+<td align="center">satp</td>
+<td align="center">Address Translation and Protection</td>
+<td align="center">存储页表基址和模式信息</td>
 </tr>
 <tr>
 <td align="center">sstatus</td>
@@ -571,7 +576,44 @@
 </li>
 <li><p>分时多任务：把用户态下应用程序主动发出的 <code>yield</code> 请求改成时钟中断即可，两者的本质 <code>__switch</code>  是一样的</p>
 </li>
+<li><p>类图如下：</p>
+</li>
 </ol>
+<p><img src="/2024/10/04/OSLearn/ch3_class.png" alt="class"></p>
+<h2 id="ch4-头甲龙操作系统"><a href="#ch4-头甲龙操作系统" class="headerlink" title="ch4 头甲龙操作系统"></a>ch4 头甲龙操作系统</h2><ol>
+<li><p>RAII (Resource Acquisition Is Initialization) 思想：资源获取即初始化，资源释放即析构</p>
+</li>
+<li><p>riscv中的页表项(PageTableEntry)</p>
+<p><img src="/2024/10/04/OSLearn/PageTableEntry.png" alt="PageTableEntry"></p>
+</li>
+<li><p>多级页表（<code>trie</code> 树）的节点规定，显然当 <code>x=w=r=0,v=1</code> 时，为非叶子结点</p>
+<p><img src="/2024/10/04/OSLearn/PTE_rwx_fields.png" alt="PTE_rwx_fields"></p>
+</li>
+<li><p>从 <code>va</code> 到 <code>pa</code> 的转换过程</p>
+<ol>
+<li>首先把 <code>va</code> 看成 <code>(VPN0, VPN1, VPN2, Offset)</code></li>
+<li>根据 <code>VPN0</code> 在一级页表找到二级页表的页号</li>
+<li>根据 <code>VPN1</code> 在二级页表找到三级页表的页号</li>
+<li>根据 <code>VPN2</code> 在三级页表找到物理页号</li>
+<li>根据 <code>Offset</code> 找到物理地址</li>
+</ol>
+</li>
+<li><p>分页机制启用后，在修改 <code>satp</code> 寄存器切换地址空间时，从处理器视角看，修改 <code>satp</code> 寄存器的指令后后面的指令是相邻的，但是实际它们的地址空间不一样，所以我们需要保证<strong>在切换地址空间处的指令是平滑的</strong>，这样才能保证地址空间的切换不会影响指令的连续执行——跳板页面，<code>trap.S</code> 段切换地址空间前后位于同一个物理页帧</p>
+</li>
+<li><p>分页机制启用后，<code>trap</code> 上下文放到应用地址次高页面原因：</p>
+<ol>
+<li>首先，<code>trap</code> 上下文的保存是需要保存所有通用寄存器的，那么进trap以后你不能覆盖这些通用寄存器的值</li>
+<li>如果选择将 <code>trap</code> 上下文保存到内核地址空间的内核栈里面，你需要：<ol>
+<li>覆盖 <code>satp</code> 寄存器，使得其根节点指向内核地址空间的页表根节点</li>
+<li>从内核地址空间的内核栈中读出 <code>trap</code> 上下文，存到应用内核栈中，所以你需要得知内核栈栈顶地址，覆盖 <code>sp</code> 寄存器</li>
+</ol>
+</li>
+<li>那么上述操作覆盖了两个寄存器，而RISC-V中只提供了一个 <code>sscratch</code> 寄存器可以临时存储保存，所以 <code>trap</code> 上下文不能放在内核地址空间的内核栈里</li>
+<li>所以我们选择全程在应用地址空间中进行 <code>trap</code> 上下文的保存</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2024/10/04/OSLearn/ch4_class.png" alt="class"></p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
 <li>batch一般指批处理，而job一般指作业</li>
 <li>fd 通常是文件描述符（File Descriptor）的缩写</li>
