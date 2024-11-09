@@ -205,17 +205,21 @@
     <div class="content" v-pre>
         <p>Rust的核心——所有权：一个变量在任意时刻，只能拥有一个可变引用或任意数量的不可变引用之一</p>
 <span id="more"></span>
-
 <p>学习链接：<a target="_blank" rel="noopener" href="https://kaisery.github.io/trpl-zh-cn">Rust 程序设计语言</a></p>
-<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><ol>
-<li><p>Rust 中的每一个值都有一个 所有者（owner）</p>
+<h2 id="作用域">作用域</h2>
+<ol>
+<li>
+<p>Rust 中的每一个值都有一个 所有者（owner）</p>
 </li>
-<li><p>值在任一时刻有且只有一个所有者</p>
+<li>
+<p>值在任一时刻有且只有一个所有者</p>
 </li>
-<li><p>当所有者（变量）离开作用域，这个值将被丢弃</p>
+<li>
+<p>当所有者（变量）离开作用域，这个值将被丢弃</p>
 </li>
-<li><p>所有权举例</p>
-<pre><code class="rust">fn main() &#123;
+<li>
+<p>所有权举例</p>
+<pre><code class="language-rust">fn main() &#123;
     let s = String::from(&quot;hello&quot;);  // s 进入作用域
     
 
@@ -240,45 +244,59 @@ fn makes_copy(some_integer: i32) &#123; // some_integer 进入作用域
 &#125; // 这里，some_integer 移出作用域。没有特殊之处
 </code></pre>
 </li>
-<li><p>变量的所有权总是遵循相同的模式：将值赋给另一个变量时移动它。当持有堆中数据值的变量离开作用域时，其值将通过 drop 被清理掉，除非数据被移动为另一个变量所有</p>
+<li>
+<p>变量的所有权总是遵循相同的模式：将值赋给另一个变量时移动它。当持有堆中数据值的变量离开作用域时，其值将通过 drop 被清理掉，除非数据被移动为另一个变量所有</p>
 </li>
 </ol>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><ol>
-<li><p>rust的引用默认为<strong>常</strong>引用，可变引用前面需要加入<code>&amp;mut</code></p>
+<h2 id="引用">引用</h2>
+<ol>
+<li>
+<p>rust的引用默认为<strong>常</strong>引用，可变引用前面需要加入<code>&amp;mut</code></p>
 </li>
-<li><p>无论是调用函数传参数，引用符都需要</p>
+<li>
+<p>无论是调用函数传参数，引用符都需要</p>
 </li>
-<li><p>Rust 也会将可变引用强转为不可变引用。但是反之是 不可能 的：不可变引用永远也不能强转为可变引用</p>
+<li>
+<p>Rust 也会将可变引用强转为不可变引用。但是反之是 不可能 的：不可变引用永远也不能强转为可变引用</p>
 </li>
-<li><p>在任意给定时刻，只能拥有一个可变引用或任意数量的不可变引用 之一（而不是两者）</p>
+<li>
+<p>在任意给定时刻，只能拥有一个可变引用或任意数量的不可变引用 之一（而不是两者）</p>
 </li>
-<li><p>引用必须总是有效的</p>
+<li>
+<p>引用必须总是有效的</p>
 </li>
-<li><p>引用举例</p>
-<pre><code class="rust">fn plus1(x: &amp;mut i32) &#123;
+<li>
+<p>引用举例</p>
+<pre><code class="language-rust">fn plus1(x: &amp;mut i32) &#123;
     *x = *x + 1;
 &#125;
 </code></pre>
 </li>
 </ol>
-<h2 id="枚举和模式匹配"><a href="#枚举和模式匹配" class="headerlink" title="枚举和模式匹配"></a>枚举和模式匹配</h2><ol>
+<h2 id="枚举和模式匹配">枚举和模式匹配</h2>
+<ol>
 <li>if let 是 match 的一个语法糖，它当值匹配某一模式时执行代码而忽略所有其他值</li>
 </ol>
-<h2 id="模块树"><a href="#模块树" class="headerlink" title="模块树"></a>模块树</h2><ol>
-<li><p>模块树应该定义在 src&#x2F;lib.rs 中</p>
+<h2 id="模块树">模块树</h2>
+<ol>
+<li>
+<p>模块树应该定义在 src/lib.rs 中</p>
 </li>
-<li><p>use的使用规范，晰地表明函数不是在本地定义的，同时使完整路径的重复度最小化</p>
+<li>
+<p>use的使用规范，晰地表明函数不是在本地定义的，同时使完整路径的重复度最小化</p>
 <ul>
-<li><p>正确✅</p>
-<pre><code class="rust">use crate::a::b;
+<li>
+<p>正确✅</p>
+<pre><code class="language-rust">use crate::a::b;
 
 pub fn Some_function() &#123;
     b::fn1();
 &#125;
 </code></pre>
 </li>
-<li><p>错误❎</p>
-<pre><code class="rust">use crate::a::b::fn1;
+<li>
+<p>错误❎</p>
+<pre><code class="language-rust">use crate::a::b::fn1;
 
 pub fn Some_function() &#123;
     fn1();
@@ -288,35 +306,44 @@ pub fn Some_function() &#123;
 </ul>
 </li>
 </ol>
-<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><ol>
+<h2 id="模块">模块</h2>
+<ol>
 <li>mod 关键字声明了模块，而 Rust 会在与模块同名的文件中查找模块的代码。</li>
 </ol>
-<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><ol>
+<h2 id="泛型">泛型</h2>
+<ol>
 <li>Rust 会将每种情况下的泛型代码编译为具体类型，使用泛型没有运行时开销。当代码运行时，它的执行效率就跟好像手写每个具体定义的重复代码一样。这个单态化过程正是 Rust 泛型在运行时极其高效的原因。</li>
 </ol>
-<h2 id="trait"><a href="#trait" class="headerlink" title="trait"></a>trait</h2><p><img src="/2024/09/15/RustLearn/trait.png" alt="trait"></p>
+<h2 id="trait">trait</h2>
+<p><img src="trait.png" alt="trait"></p>
 <ol>
-<li><p>特征。类似于c的基类，声明函数但可以不实现，它用来定义一组可以被不同类型实现的行为</p>
+<li>
+<p>特征。类似于c的基类，声明函数但可以不实现，它用来定义一组可以被不同类型实现的行为</p>
 </li>
-<li><p>好用的<code>where</code>定语从句</p>
-<pre><code class="rust">fn some_function&lt;T, U&gt;(t: &amp;T, u: &amp;U) -&gt; i32
+<li>
+<p>好用的<code>where</code>定语从句</p>
+<pre><code class="language-rust">fn some_function&lt;T, U&gt;(t: &amp;T, u: &amp;U) -&gt; i32
 where
     T: Display + Clone,
     U: Clone + Debug,
 </code></pre>
 </li>
-<li><p>调用关系，如果一个<code>struct</code>钟实现两个同名函数，需要使用类似<code>trait1::fn1(&amp;struct0_varible_name);</code>方法调用</p>
+<li>
+<p>调用关系，如果一个<code>struct</code>钟实现两个同名函数，需要使用类似<code>trait1::fn1(&amp;struct0_varible_name);</code>方法调用</p>
 </li>
-<li><p>对于3的歧义情况，使用 完全限定语法是调用函数时最为明确的方式，例如<code>&lt;struct0 as trait1&gt;::fn1()</code></p>
+<li>
+<p>对于3的歧义情况，使用 完全限定语法是调用函数时最为明确的方式，例如<code>&lt;struct0 as trait1&gt;::fn1()</code></p>
 </li>
 </ol>
-<h2 id="生命周期-lifetime"><a href="#生命周期-lifetime" class="headerlink" title="生命周期 lifetime"></a>生命周期 lifetime</h2><ol>
-<li><p>举例</p>
-<pre><code class="rust">fn main() &#123; 
-    let r;                // ---------+-- &#39;a
+<h2 id="生命周期-lifetime">生命周期 lifetime</h2>
+<ol>
+<li>
+<p>举例</p>
+<pre><code class="language-rust">fn main() &#123; 
+    let r;                // ---------+-- 'a
                           //          |
     &#123;                     //          |
-        let x = 5;        // -+-- &#39;b  |
+        let x = 5;        // -+-- 'b  |
         r = &amp;x;           //  |       |
     &#125;                     // -+       |
                           //          |
@@ -324,25 +351,32 @@ where
 &#125;                         // ---------+
 </code></pre>
 <ul>
-<li>这里将 r 的生命周期标记为 ‘a 并将 x 的生命周期标记为 ‘b。</li>
+<li>这里将 r 的生命周期标记为 'a 并将 x 的生命周期标记为 'b。</li>
 </ul>
 </li>
-<li><p>Rust 编译器有一个 借用检查器（borrow checker），它比较作用域来确保所有的借用都是有效的</p>
+<li>
+<p>Rust 编译器有一个 借用检查器（borrow checker），它比较作用域来确保所有的借用都是有效的</p>
 </li>
-<li><p>生命周期语法是用于将函数的多个参数与其返回值的生命周期进行关联的</p>
+<li>
+<p>生命周期语法是用于将函数的多个参数与其返回值的生命周期进行关联的</p>
 </li>
-<li><p>也可以定义包含引用的结构体，不过这需要为结构体定义中的每一个引用添加生命周期注解</p>
+<li>
+<p>也可以定义包含引用的结构体，不过这需要为结构体定义中的每一个引用添加生命周期注解</p>
 </li>
-<li><p>这里有一种特殊的生命周期值得讨论：’static，其生命周期能够存活于整个程序期间。所有的字符串字面值都拥有 ‘static 生命周期</p>
+<li>
+<p>这里有一种特殊的生命周期值得讨论：'static，其生命周期能够存活于整个程序期间。所有的字符串字面值都拥有 'static 生命周期</p>
 </li>
 </ol>
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ol>
+<h2 id="测试">测试</h2>
+<ol>
 <li>为了编写集成测试，需要在项目根目录创建一个 tests 目录，与 src 同级</li>
 </ol>
-<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><ol>
+<h2 id="闭包">闭包</h2>
+<ol>
 <li><code>unwrap_or_else</code> 是 Rust 标准库中 <code>Option</code> 和 <code>Result</code> 类型的方法，用于处理可能为空的值（<code>Option</code>）或可能出错的值（<code>Result</code>）。它允许你在 <code>Option</code> 为 <code>None</code> 或 <code>Result</code> 为 <code>Err</code> 时提供一个备用值或执行一个闭包。</li>
 <li>闭包（Closure）是 Rust 中的一种匿名函数，可以捕获其环境中的变量。</li>
-<li>闭包与函数的区别<ol>
+<li>闭包与函数的区别
+<ol>
 <li>捕获环境：闭包可以捕获其定义环境中的变量，而函数不能。</li>
 <li>类型推断：闭包可以自动推断参数和返回值的类型，而函数需要显式声明类型。</li>
 <li>灵活性：闭包可以存储在变量中，作为参数传递给其他函数，甚至可以作为返回值。</li>
@@ -352,38 +386,51 @@ where
 <li>闭包定义时，它会捕获变量的可变引用（如果这个闭包会改变变量的话）</li>
 <li>调用闭包时，如果变量所有权被夺走，那么变量就不在闭包环境中，相当于只能调用一次闭包，需要注意这种情况</li>
 </ol>
-<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><ol>
-<li><p>需要注意的是，从 next 调用中获取的值是对 vector 中值的不可变引用。iter 方法生成一个不可变引用的迭代器</p>
+<h2 id="迭代器">迭代器</h2>
+<ol>
+<li>
+<p>需要注意的是，从 next 调用中获取的值是对 vector 中值的不可变引用。iter 方法生成一个不可变引用的迭代器</p>
 </li>
-<li><p>如果我们需要一个获取 变量 所有权并返回拥有所有权的迭代器，则可以调用 into_iter 而不是 iter</p>
+<li>
+<p>如果我们需要一个获取 变量 所有权并返回拥有所有权的迭代器，则可以调用 into_iter 而不是 iter</p>
 </li>
-<li><p>使用 into_iter 会获取所有权并消耗，返回一个拥有所有权的迭代器，适用于需要转移所有权的情况</p>
+<li>
+<p>使用 into_iter 会获取所有权并消耗，返回一个拥有所有权的迭代器，适用于需要转移所有权的情况</p>
 </li>
-<li><p>使用 iter 会借用 变量，返回一个不可变引用的迭代器，适用于不需要转移所有权的情况</p>
-<pre><code class="rust">let v1 = vec![1, 2, 3];
+<li>
+<p>使用 iter 会借用 变量，返回一个不可变引用的迭代器，适用于不需要转移所有权的情况</p>
+<pre><code class="language-rust">let v1 = vec![1, 2, 3];
 let v2: Vec&lt;_&gt; = v1.into_iter().filter(|x/*&amp;i32*/| *x == 2).collect();
 //-------------------------------------------------------------------
 let v1 = vec![1, 2, 3];
 let v2: Vec&lt;_&gt; = v1.iter().filter(|x/*&amp;&amp;i32*/| x == 2).collect();
 </code></pre>
 </li>
-<li><p>如果我们希望迭代可变引用，可以调用 iter_mut 而不是 iter</p>
+<li>
+<p>如果我们希望迭代可变引用，可以调用 iter_mut 而不是 iter</p>
 </li>
 </ol>
-<h2 id="并行编程"><a href="#并行编程" class="headerlink" title="并行编程"></a>并行编程</h2><ul>
+<h2 id="并行编程">并行编程</h2>
+<ul>
 <li>所有权规则在消息传递中扮演了重要角色，其有助于我们编写安全的并发代码。防止并发编程中的错误是在 Rust 程序中考虑所有权的一大优势。</li>
 </ul>
-<h2 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h2><ol>
-<li><p><code>Rc&lt;T&gt;</code> 允许相同数据有多个所有者；<code>Box&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 有单一所有者。</p>
+<h2 id="智能指针">智能指针</h2>
+<ol>
+<li>
+<p><code>Rc&lt;T&gt;</code> 允许相同数据有多个所有者；<code>Box&lt;T&gt;</code> 和 <code>RefCell&lt;T&gt;</code> 有单一所有者。</p>
 </li>
-<li><p><code>Box&lt;T&gt;</code> 允许在编译时执行不可变或可变借用检查；<code>Rc&lt;T&gt;</code> 仅允许在编译时执行不可变借用检查；<code>RefCell&lt;T&gt;</code> 允许在运行时执行不可变或可变借用检查。</p>
+<li>
+<p><code>Box&lt;T&gt;</code> 允许在编译时执行不可变或可变借用检查；<code>Rc&lt;T&gt;</code> 仅允许在编译时执行不可变借用检查；<code>RefCell&lt;T&gt;</code> 允许在运行时执行不可变或可变借用检查。</p>
 </li>
-<li><p>使用 <code>RefCell&lt;T&gt;</code> 能够在外部值被认为是不可变的情况下修改内部值</p>
+<li>
+<p>使用 <code>RefCell&lt;T&gt;</code> 能够在外部值被认为是不可变的情况下修改内部值</p>
 </li>
-<li><p>因为 <code>RefCell&lt;T&gt;</code> 允许在运行时执行可变借用检查，所以我们可以在即便 <code>RefCell&lt;T&gt;</code> 自身是不可变的情况下修改其内部的值，例如：</p>
+<li>
+<p>因为 <code>RefCell&lt;T&gt;</code> 允许在运行时执行可变借用检查，所以我们可以在即便 <code>RefCell&lt;T&gt;</code> 自身是不可变的情况下修改其内部的值，例如：</p>
 </li>
-<li><p><code>Cow</code>类型是一个智能指针，它可以指向一个值，这个值可以是引用，也可以是具体的值。<code>Cow</code>是<code>clone on write</code>的缩写，它的主要作用是延迟克隆，只有在需要修改时才会真正克隆数据</p>
-<pre><code class="rust">pub trait Base &#123;
+<li>
+<p><code>Cow</code>类型是一个智能指针，它可以指向一个值，这个值可以是引用，也可以是具体的值。<code>Cow</code>是<code>clone on write</code>的缩写，它的主要作用是延迟克隆，只有在需要修改时才会真正克隆数据</p>
+<pre><code class="language-rust">pub trait Base &#123;
     fn send(&amp;self, msg: &amp;str);
 &#125;
 
@@ -404,22 +451,29 @@ impl Base for Instance &#123;
 &#125;
 </code></pre>
 </li>
-<li><p>注意 <code>Rc&lt;T&gt;</code> 只能用于单线程场景</p>
+<li>
+<p>注意 <code>Rc&lt;T&gt;</code> 只能用于单线程场景</p>
 </li>
-<li><p>注意 <code>RefCell&lt;T&gt;</code> 不能用于多线程代码！</p>
+<li>
+<p>注意 <code>RefCell&lt;T&gt;</code> 不能用于多线程代码！</p>
 </li>
-<li><p>避免出现引用循环</p>
+<li>
+<p>避免出现引用循环</p>
 </li>
 </ol>
-<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><ol>
+<h2 id="并发">并发</h2>
+<ol>
 <li><code>Mutex&lt;T&gt;</code>同<code>RefCall&lt;T&gt;</code>都提供了内部可变性，在变量是不可变的情况下修改其值</li>
 </ol>
-<h2 id="特征对象"><a href="#特征对象" class="headerlink" title="特征对象"></a>特征对象</h2><ol>
+<h2 id="特征对象">特征对象</h2>
+<ol>
 <li><code>dyn x</code>表示一个类型，并且这个类型实现了<code>x</code>特征，<code>x</code>是个<code>trait</code></li>
 </ol>
-<h2 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h2><ol>
-<li><p><code>..</code>模式会忽略模式中剩余的任何没有显式匹配的值部分，但不能是有歧义的使用，例如</p>
-<pre><code class="rust">fn main() &#123;
+<h2 id="模式匹配">模式匹配</h2>
+<ol>
+<li>
+<p><code>..</code>模式会忽略模式中剩余的任何没有显式匹配的值部分，但不能是有歧义的使用，例如</p>
+<pre><code class="language-rust">fn main() &#123;
     let numbers = (2, 4, 8, 16, 32);
 
     match numbers &#123;
@@ -435,16 +489,21 @@ impl Base for Instance &#123;
 &#125;
 </code></pre>
 </li>
-<li><p>限制形参范围可以用，<code>@</code>后面跟一个范围</p>
+<li>
+<p>限制形参范围可以用，<code>@</code>后面跟一个范围</p>
 </li>
 </ol>
-<h2 id="不安全代码"><a href="#不安全代码" class="headerlink" title="不安全代码"></a>不安全代码</h2><ol>
-<li><p>Rust 支持全局变量，在 Rust 中又被称为 静态（static）变量</p>
+<h2 id="不安全代码">不安全代码</h2>
+<ol>
+<li>
+<p>Rust 支持全局变量，在 Rust 中又被称为 静态（static）变量</p>
 </li>
-<li><p>访问和修改可变静态变量都是 不安全 的，需要使用<code>unsafe</code>块</p>
+<li>
+<p>访问和修改可变静态变量都是 不安全 的，需要使用<code>unsafe</code>块</p>
 </li>
-<li><p>unsafe举例</p>
-<pre><code class="rust">static mut COUNTER: u32 = 0;
+<li>
+<p>unsafe举例</p>
+<pre><code class="language-rust">static mut COUNTER: u32 = 0;
 
 fn add_to_count(inc: u32) &#123;
     unsafe &#123;
@@ -454,31 +513,43 @@ fn add_to_count(inc: u32) &#123;
 </code></pre>
 </li>
 </ol>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
-<li><p>使用<code>.collect()</code>时一定要明确指出变量类型</p>
-<pre><code class="rust">    let v2 = v1.iter().map(|x| x + 1).collect();
+<h2 id="其他">其他</h2>
+<ol>
+<li>
+<p>使用<code>.collect()</code>时一定要明确指出变量类型</p>
+<pre><code class="language-rust">    let v2 = v1.iter().map(|x| x + 1).collect();
         ^^                            ------- type must be known at this point
 </code></pre>
 </li>
-<li><p>一旦获取了锁，就可以将返回值视为一个其内部数据的可变引用了</p>
+<li>
+<p>一旦获取了锁，就可以将返回值视为一个其内部数据的可变引用了</p>
 </li>
-<li><p>通过在名字前以一个 _ 开头来忽略未使用的变量</p>
+<li>
+<p>通过在名字前以一个 _ 开头来忽略未使用的变量</p>
 </li>
-<li><p>范围表示<code>a..=b</code></p>
+<li>
+<p>范围表示<code>a..=b</code></p>
 </li>
-<li><p>类型别名<code>type thunk = Box&lt;dyn Fn() + Send + &#39;static&gt;</code>;</p>
+<li>
+<p>类型别名<code>type thunk = Box&lt;dyn Fn() + Send + 'static&gt;</code>;</p>
 </li>
-<li><p>asm!用来内联汇编</p>
+<li>
+<p>asm!用来内联汇编</p>
 </li>
-<li><p>lazy_static! 是一个宏，用于在 Rust 中创建惰性静态变量。惰性静态变量在第一次访问时初始化，而不是在程序启动时初始化。这对于需要在运行时进行复杂初始化的静态变量非常有用。</p>
+<li>
+<p>lazy_static! 是一个宏，用于在 Rust 中创建惰性静态变量。惰性静态变量在第一次访问时初始化，而不是在程序启动时初始化。这对于需要在运行时进行复杂初始化的静态变量非常有用。</p>
 </li>
-<li><p>ptr的 add(1) 方法将指针向前移动一个 usize 的位置</p>
+<li>
+<p>ptr的 add(1) 方法将指针向前移动一个 usize 的位置</p>
 </li>
-<li><p>在 Rust 中，{:#x} 是一种格式化字符串的语法，用于以十六进制格式打印数值，并带有前缀 0x</p>
+<li>
+<p>在 Rust 中，{:#x} 是一种格式化字符串的语法，用于以十六进制格式打印数值，并带有前缀 0x</p>
 </li>
-<li><p>#[no_mangle] 是一个属性（attribute），用于告诉编译器不要对函数名进行名称重整（name mangling）</p>
+<li>
+<p>#[no_mangle] 是一个属性（attribute），用于告诉编译器不要对函数名进行名称重整（name mangling）</p>
 </li>
-<li><p>在 Rust 中，感叹号 ! 表示这个函数是一个发散函数（diverging function），即它永远不会返回</p>
+<li>
+<p>在 Rust 中，感叹号 ! 表示这个函数是一个发散函数（diverging function），即它永远不会返回</p>
 </li>
 </ol>
 
