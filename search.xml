@@ -1791,4 +1791,80 @@ emoji 图标网站：<a href="https://www.emojiall.com/">https://www.emojiall.co
 rust 学习：<a href="https://kaisery.github.io/trpl-zh-cn/">https://kaisery.github.io/trpl-zh-cn/</a> 、 <a href="https://course.rs/about-book.html">https://course.rs/about-book.html</a></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>sync</title>
+    <url>/2024/12/25/sync/</url>
+    <content><![CDATA[<h1>互斥算法</h1>
+<p>Sequential 内存模型下，peterson算法可以实现并发程序的互斥</p>
+<h2 id="Peterson算法">Peterson算法</h2>
+<p>精髓：谁快谁进，因为谁手慢，谁就会贴上对面的名字</p>
+<p>每个人：</p>
+<ul>
+<li>有一个flag，表示自己是否想进入临界区</li>
+<li>有一个turn，表示轮到自己进入临界区</li>
+<li>如果两个人都想进入临界区，那么就看turn是谁，谁的turn是1，谁就进入临界区</li>
+</ul>
+<h2 id="原子指令">原子指令</h2>
+<ul>
+<li>486时代原子指令会给bus总线加锁实现缓存同步。现代CPU的某个核在执行原子指令时，会通知其他核，让其他核的缓存失效，保证了原子指令的原子性</li>
+</ul>
+<p>精髓：保证 <strong>读-改-写</strong> 序列的原子性，也即保证我的读写操作中间，不会被其他线程读取</p>
+<p>riscv指令的巧妙实现：</p>
+<ul>
+<li>lr: load reserved，表示盯上你了</li>
+<li>sc: store conditional，只有当被盯上了，才会真正实现写操作</li>
+</ul>
+<p>多线程编程中，riscv中的lr和sc原子指令的应用：</p>
+<ol>
+<li>lr指令：将内存中的值读取到寄存器中，并且标记这个内存位置已经被盯上了</li>
+<li>根据读出数据进行某种操作</li>
+<li>sc指令：将寄存器中的值写回内存，但是只有当这个内存位置没有被其他线程盯上时，才会真正写入，否则跳转回1，重新尝试进行读取写入</li>
+</ol>
+<p>自旋锁：</p>
+<ul>
+<li>优点：如果能拿到锁，进入临界区的速度很快</li>
+<li>缺陷：其他处理器会被阻塞，浪费CPU资源；存在不能被打断的情况，可能会导致死锁</li>
+<li>使用场景：临界区执行时间短，无阻塞；持有自旋锁的线程不会被中断，禁止执行流中断</li>
+</ul>
+<p>互斥锁（系统调用支持）：</p>
+<ul>
+<li>为了解决自旋锁的缺点，本线程想要访问长临界区，如果确实有锁，那么系统调用直接返回，但是此时如果锁被别的线程持有，无法获得锁，那么就把自己占用的CPU让权，让出CPU资源，等待锁被释放；释放锁的时候，会检查有哪些线程等待锁，若有则唤醒之</li>
+<li>优点：如果拿不到锁，会让出CPU资源</li>
+<li>缺陷：如果能拿到锁，也因为系统调用的开销，进入临界区的速度会慢一些</li>
+</ul>
+<p>Futex:</p>
+<ul>
+<li>兼顾自旋锁和互斥锁的优点</li>
+</ul>
+<h1>处理器调度的问题</h1>
+<ol>
+<li>目标复杂多样</li>
+</ol>
+<ul>
+<li>保证I/O设备的快速响应？</li>
+<li>全局任务的执行时间最快？</li>
+<li>功耗低？</li>
+</ul>
+<ol start="2">
+<li>条件复杂</li>
+</ol>
+<ul>
+<li>真的可以假设程序是黑盒吗？（调度器真的是操作系统决定的吗）</li>
+<li>多核之间的数据迁移导致的cache/TLB开销</li>
+<li>程序中使用锁被调度，导致高优先级任务拿不到低优先级任务的锁（优先级翻转）</li>
+<li>不同处理器的算力性能不同</li>
+<li>处理器热插拔？</li>
+</ul>
+]]></content>
+      <categories>
+        <category>learn</category>
+      </categories>
+      <tags>
+        <tag>os</tag>
+        <tag>sync</tag>
+        <tag>同步互斥问题</tag>
+        <tag>scheduler</tag>
+        <tag>多处理器调度</tag>
+      </tags>
+  </entry>
 </search>
