@@ -193,14 +193,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/os/" style="color: #00a596">
+                <a href="/tags/os/" style="color: #ffa2c4">
                     os
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/sync/" style="color: #03a9f4">
+                <a href="/tags/sync/" style="color: #ff7d73">
                     sync
                 </a>
             </span>
@@ -214,14 +214,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/scheduler/" style="color: #00bcd4">
+                <a href="/tags/scheduler/" style="color: #ff7d73">
                     scheduler
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/%E5%A4%9A%E5%A4%84%E7%90%86%E5%99%A8%E8%B0%83%E5%BA%A6/" style="color: #00a596">
+                <a href="/tags/%E5%A4%9A%E5%A4%84%E7%90%86%E5%99%A8%E8%B0%83%E5%BA%A6/" style="color: #ffa2c4">
                     多处理器调度
                 </a>
             </span>
@@ -233,10 +233,9 @@
     <div class="content" v-pre>
         <p>感谢jyy老师，醍醐灌顶的操作系统课程。</p>
 <span id="more"></span>
-<h1>互斥算法</h1>
-<h2 id="问题的引入">问题的引入</h2>
-<p>有多个线程需要访问临界区，修改临界区里面的共享内存的内容，如何保证在任一时刻，最多只有一个线程能够进入临界区？首先展示一个错误的做法</p>
-<pre><code class="language-rust">pub sum: i32 = 0;
+
+<h1 id="互斥算法"><a href="#互斥算法" class="headerlink" title="互斥算法"></a>互斥算法</h1><h2 id="问题的引入"><a href="#问题的引入" class="headerlink" title="问题的引入"></a>问题的引入</h2><p>有多个线程需要访问临界区，修改临界区里面的共享内存的内容，如何保证在任一时刻，最多只有一个线程能够进入临界区？首先展示一个错误的做法</p>
+<pre><code class="rust">pub sum: i32 = 0;
 pub lock: bool = false; // 临界区的锁，一开始是开着的
 
 fn t1() &#123;
@@ -281,16 +280,14 @@ fn main() &#123;
 &#125;
 </code></pre>
 <p>使用状态机法，或是利用 <code>module-checker</code>，都会发现存在一个状态使得两个线程都进入了临界区。简单来讲，就是两个线程都<strong>读</strong>到了一个释放了的锁，导致两个线程都拿到了锁，进入了临界区</p>
-<h2 id="Peterson算法">Peterson算法</h2>
-<p>完全用软件算法解决两个线程的互斥访问问题</p>
-<h3 id="定义">定义</h3>
-<p>每个人（<code>Peterson</code>算法仅限两个线程）：</p>
+<h2 id="Peterson算法"><a href="#Peterson算法" class="headerlink" title="Peterson算法"></a>Peterson算法</h2><p>完全用软件算法解决两个线程的互斥访问问题</p>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>每个人（<code>Peterson</code>算法仅限两个线程）：</p>
 <ul>
 <li>有一个<code>flag</code>，表示自己是否想进入临界区</li>
 <li>有一个<code>turn</code>，表示轮到自己进入临界区</li>
 <li>如果两个人都想进入临界区，那么就看<code>turn</code>是谁，谁的<code>turn</code>是1，谁就进入临界区</li>
 </ul>
-<pre><code class="language-rust">fn t1() &#123;
+<pre><code class="rust">fn t1() &#123;
   // lock
   🏴‍☠️  // 举起旗帜，表示我要上厕所
   2️⃣  // 在厕所门口贴上对方的名字，表示我到了
@@ -316,16 +313,11 @@ fn t2() &#123;
   put down 🏳️  // 放下旗帜，我厕所上完了
 &#125;    
 </code></pre>
-<h3 id="核心">核心</h3>
-<p>谁快谁进，因为谁手慢，谁就会贴上对面的名字，两者在都想进入临界区时，由临界区决定先后顺序（上述例子中的厕所门口的张贴的名字）</p>
-<h2 id="原子指令">原子指令</h2>
-<p>但是<code>Peterson</code>算法理解难度高，如果交换举起旗帜和张贴名字的顺序，那该算法还正确吗？估计又蒙圈了。而且<code>Peterson</code>算法只适用于两个线程，若是多个线程，又要改写算法，非常麻烦。那么有没有一种更加简洁的方案呢？</p>
-<h3 id="互斥问题的本质">互斥问题的本质</h3>
-<p>互斥问题的本质是：<strong>读-写</strong> 的原子性问题。在多线程编程中，一个线程读取了一个共享变量，然后对这个变量进行了修改，最后写回这个变量。在上面那个错误的例子中，就是因为一个线程的<strong>读-写</strong>lock的操作不是原子性的，导致另一个线程在当前线程<strong>写</strong>锁之前，读到了释放的<strong>锁</strong>。因此，我们需要保证这个过程的原子性。</p>
-<h3 id="硬件支持">硬件支持</h3>
-<p>于是，为了解决 <strong>读-写</strong> 的原子性问题，现代CPU提供了原子指令，如x86的lock指令，riscv的<strong>lr</strong>和<strong>sc</strong>指令。这些原子指令的实现，保证了 <strong>读-写</strong> 的原子性，也即保证了在一个线程的读写操作中间，不会被其他线程读取。<br>
-那么最开始的错误代码就可以改写为（原子变量的内存序问题这里不再探讨）：</p>
-<pre><code class="language-rust">use std::sync::atomic::&#123;AtomicBool, Ordering&#125;;
+<h3 id="核心"><a href="#核心" class="headerlink" title="核心"></a>核心</h3><p>谁快谁进，因为谁手慢，谁就会贴上对面的名字，两者在都想进入临界区时，由临界区决定先后顺序（上述例子中的厕所门口的张贴的名字）</p>
+<h2 id="原子指令"><a href="#原子指令" class="headerlink" title="原子指令"></a>原子指令</h2><p>但是<code>Peterson</code>算法理解难度高，如果交换举起旗帜和张贴名字的顺序，那该算法还正确吗？估计又蒙圈了。而且<code>Peterson</code>算法只适用于两个线程，若是多个线程，又要改写算法，非常麻烦。那么有没有一种更加简洁的方案呢？</p>
+<h3 id="互斥问题的本质"><a href="#互斥问题的本质" class="headerlink" title="互斥问题的本质"></a>互斥问题的本质</h3><p>互斥问题的本质是：<strong>读-写</strong> 的原子性问题。在多线程编程中，一个线程读取了一个共享变量，然后对这个变量进行了修改，最后写回这个变量。在上面那个错误的例子中，就是因为一个线程的<strong>读-写</strong>lock的操作不是原子性的，导致另一个线程在当前线程<strong>写</strong>锁之前，读到了释放的<strong>锁</strong>。因此，我们需要保证这个过程的原子性。</p>
+<h3 id="硬件支持"><a href="#硬件支持" class="headerlink" title="硬件支持"></a>硬件支持</h3><p>于是，为了解决 <strong>读-写</strong> 的原子性问题，现代CPU提供了原子指令，如x86的lock指令，riscv的<strong>lr</strong>和<strong>sc</strong>指令。这些原子指令的实现，保证了 <strong>读-写</strong> 的原子性，也即保证了在一个线程的读写操作中间，不会被其他线程读取。<br>那么最开始的错误代码就可以改写为（原子变量的内存序问题这里不再探讨）：</p>
+<pre><code class="rust">use std::sync::atomic::&#123;AtomicBool, Ordering&#125;;
 let lock = AtomicBool::new(true);
 
 fn t1() &#123;
@@ -351,12 +343,10 @@ fn t2() &#123;
 &#125;
 </code></pre>
 <p>但是其实 <code>xchg</code> 是C语言中的接口函数 <code>atomic_xchg</code>，在rust中可以使用其他的方法</p>
-<h3 id="代价是什么">代价是什么</h3>
-<p>现代CPU的设计都存在核单独享用的<code>L1-Cache</code>，可能到<code>L2-Cache</code>才是共享内存，那么在原子指令的执行中，一个核的执行的原子指令可能改动了某个内存地址的值，但此时别的核的<code>L1-Cache</code>若缓存了相同地址的值，那么这个值就是过时的，这就导致了缓存一致性问题。</p>
+<h3 id="代价是什么"><a href="#代价是什么" class="headerlink" title="代价是什么"></a>代价是什么</h3><p>现代CPU的设计都存在核单独享用的<code>L1-Cache</code>，可能到<code>L2-Cache</code>才是共享内存，那么在原子指令的执行中，一个核的执行的原子指令可能改动了某个内存地址的值，但此时别的核的<code>L1-Cache</code>若缓存了相同地址的值，那么这个值就是过时的，这就导致了缓存一致性问题。  </p>
 <p>Intel-486时代原子指令会给bus总线加锁实现缓存同步，这是一个大锁，显然浪费了其他核的性能。而现代CPU采用了通知机制，当某个核在执行原子指令时，会通知其他核，让其他核的缓存失效，保证了原子指令的原子性</p>
-<h3 id="riscv指令的巧妙实现：">riscv指令的巧妙实现：</h3>
-<ul>
-<li><code>lr</code>: load reserved，表示盯上你了，其他处理器写入/中断都会导致这个标记失效</li>
+<h3 id="riscv指令的巧妙实现："><a href="#riscv指令的巧妙实现：" class="headerlink" title="riscv指令的巧妙实现："></a>riscv指令的巧妙实现：</h3><ul>
+<li><code>lr</code>: load reserved，表示盯上你了，其他处理器写入&#x2F;中断都会导致这个标记失效</li>
 <li><code>sc</code>: store conditional，只有当被盯上了（存在这个标记），才会真正实现写操作</li>
 </ul>
 <p>多线程编程中，riscv中的lr和sc原子指令的应用：</p>
@@ -365,31 +355,26 @@ fn t2() &#123;
 <li>根据读出数据进行某种操作</li>
 <li>sc指令：将寄存器中的值写回内存，但是只有当这个内存位置没有被其他线程盯上时，才会真正写入，否则跳转回1，重新尝试进行读取写入</li>
 </ol>
-<h2 id="自旋锁和互斥锁">自旋锁和互斥锁</h2>
-<h3 id="自旋锁">自旋锁</h3>
-<ul>
+<h2 id="自旋锁和互斥锁"><a href="#自旋锁和互斥锁" class="headerlink" title="自旋锁和互斥锁"></a>自旋锁和互斥锁</h2><h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><ul>
 <li>优点：如果能拿到锁，进入临界区的速度很快</li>
 <li>缺陷：其他处理器会被阻塞，浪费CPU资源；存在不能被打断的情况，可能会导致死锁</li>
 <li>使用场景：临界区执行时间短，无阻塞；持有自旋锁的线程不会被中断，禁止执行流中断</li>
 </ul>
-<h3 id="互斥锁（系统调用支持）">互斥锁（系统调用支持）</h3>
-<ul>
+<h3 id="互斥锁（系统调用支持）"><a href="#互斥锁（系统调用支持）" class="headerlink" title="互斥锁（系统调用支持）"></a>互斥锁（系统调用支持）</h3><ul>
 <li>为了解决自旋锁的缺点，本线程想要访问长临界区，如果确实有锁，那么系统调用直接返回，但是此时如果锁被别的线程持有，无法获得锁，那么就把自己占用的CPU让权，让出CPU资源，等待锁被释放；释放锁的时候，会检查有哪些线程等待锁，若有则唤醒之</li>
 <li>优点：如果拿不到锁，会让出CPU资源</li>
 <li>缺陷：如果能拿到锁，也因为系统调用的开销，进入临界区的速度会慢一些</li>
 </ul>
-<h3 id="Futex（实际运用）">Futex（实际运用）:</h3>
-<ul>
+<h3 id="Futex（实际运用）"><a href="#Futex（实际运用）" class="headerlink" title="Futex（实际运用）:"></a>Futex（实际运用）:</h3><ul>
 <li>兼顾自旋锁和互斥锁的优点，让大部分情况能拿到锁的情况，只需要通过一条原子指令就可以拿到锁，最快速的进入临界区执行代码</li>
-<li>用到了操作系统设计/CPU设计中的重要思想：<strong>优化大部分情况，忽视小部分情况</strong>。当然这里的大小一定是明显的大和小，比如95%和5%，我们优化80%的情况的收益就很高，类比CPU设计中的分支预测</li>
+<li>用到了操作系统设计&#x2F;CPU设计中的重要思想：<strong>优化大部分情况，忽视小部分情况</strong>。当然这里的大小一定是明显的大和小，比如95%和5%，我们优化80%的情况的收益就很高，类比CPU设计中的分支预测</li>
 </ul>
-<h1>多核处理器调度</h1>
-<p>多核处理器调度是一个非常复杂，甚至可以说无解的问题，因为它甚至不存在一个绝对的衡量标准，可能在不同的应用场景下，两种调度策略展现出来的结果大相径庭，所以我们讲调度策略，一定需要针对某一个特定的使用场景，并且指定所有的外部非 <code>Kernel</code> 代码所能决定的外部条件(甚至包括用户程序能否向操作系统合理的传递它当前任务的合理优先级)。例如在实时操作系统中，高优先级的任务就是绝对的高优先级；在面向用户的使用场景中，要保证I/O设备的快速响应。多种调度策略甚至不能说孰优孰劣，只能说互有利弊。</p>
+<h1 id="多核处理器调度"><a href="#多核处理器调度" class="headerlink" title="多核处理器调度"></a>多核处理器调度</h1><p>多核处理器调度是一个非常复杂，甚至可以说无解的问题，因为它甚至不存在一个绝对的衡量标准，可能在不同的应用场景下，两种调度策略展现出来的结果大相径庭，所以我们讲调度策略，一定需要针对某一个特定的使用场景，并且指定所有的外部非 <code>Kernel</code> 代码所能决定的外部条件(甚至包括用户程序能否向操作系统合理的传递它当前任务的合理优先级)。例如在实时操作系统中，高优先级的任务就是绝对的高优先级；在面向用户的使用场景中，要保证I&#x2F;O设备的快速响应。多种调度策略甚至不能说孰优孰劣，只能说互有利弊。</p>
 <ol>
 <li>目标复杂多样</li>
 </ol>
 <ul>
-<li>保证I/O设备的快速响应？</li>
+<li>保证I&#x2F;O设备的快速响应？</li>
 <li>全局任务的执行时间最快？</li>
 <li>功耗低？</li>
 </ul>
@@ -398,29 +383,25 @@ fn t2() &#123;
 </ol>
 <ul>
 <li>真的可以假设程序是黑盒吗？（调度器真的是操作系统决定的吗）</li>
-<li>多核之间的数据迁移导致的cache/TLB开销</li>
+<li>多核之间的数据迁移导致的cache&#x2F;TLB开销</li>
 <li>程序中使用锁被调度，导致高优先级任务拿不到低优先级任务的锁（优先级翻转）</li>
 <li>不同处理器的算力性能不同</li>
 <li>处理器热插拔？</li>
 </ul>
-<h2 id="针对操作系统比赛环境">针对操作系统比赛环境</h2>
-<h3 id="调度目标">调度目标</h3>
-<ul>
-<li>存在多个任务，其中包含网络任务和I/O任务，保证总任务的执行时间最短</li>
+<h2 id="针对操作系统比赛环境"><a href="#针对操作系统比赛环境" class="headerlink" title="针对操作系统比赛环境"></a>针对操作系统比赛环境</h2><h3 id="调度目标"><a href="#调度目标" class="headerlink" title="调度目标"></a>调度目标</h3><ul>
+<li>存在多个任务，其中包含网络任务和I&#x2F;O任务，保证总任务的执行时间最短</li>
 </ul>
-<h3 id="外部硬件条件">外部硬件条件</h3>
-<ul>
+<h3 id="外部硬件条件"><a href="#外部硬件条件" class="headerlink" title="外部硬件条件"></a>外部硬件条件</h3><ul>
 <li>四核CPU</li>
 <li>4GB内存</li>
 <li>无需考虑功耗</li>
 <li>无需考虑热插拔</li>
 </ul>
-<h2 id="可选的调度策略">可选的调度策略</h2>
-<p>CFS（Completely Fair Scheduler）：Linux内核中的调度策略，保证每个任务都能获得公平的CPU时间（<code>vruntime</code>）。并且保证运行时间最长和运行时间最短的任务的 <code>vruntime</code> 差值不会超过 <code>USIZEMAX / 2</code>，这是为了便于比较函数的实现（塞给红黑树的比较）。</p>
+<h2 id="可选的调度策略"><a href="#可选的调度策略" class="headerlink" title="可选的调度策略"></a>可选的调度策略</h2><p>CFS（Completely Fair Scheduler）：Linux内核中的调度策略，保证每个任务都能获得公平的CPU时间（<code>vruntime</code>）。并且保证运行时间最长和运行时间最短的任务的 <code>vruntime</code> 差值不会超过 <code>USIZEMAX / 2</code>，这是为了便于比较函数的实现（塞给红黑树的比较）。</p>
 <p>但是还需要考虑很多其他的因素，比如：</p>
 <ul>
-<li>I/O外部中断，需要调度那些需要I/O数据的任务</li>
-<li>如果当前核正要被调度，是执行别的任务，还是执行当前被打断的任务呢，因为继续执行当前任务不需要刷cache/TLB，执行其他任务需要。从执行任务总时间的角度是继续执行当前任务，除非当前任务是因为I/O等待，那我需要衡量I/O等待的时间是否大于刷cache/TLB的时间，如果大于我切换到别的任务才是有收益的，否则甚至可以不切换</li>
+<li>I&#x2F;O外部中断，需要调度那些需要I&#x2F;O数据的任务</li>
+<li>如果当前核正要被调度，是执行别的任务，还是执行当前被打断的任务呢，因为继续执行当前任务不需要刷cache&#x2F;TLB，执行其他任务需要。从执行任务总时间的角度是继续执行当前任务，除非当前任务是因为I&#x2F;O等待，那我需要衡量I&#x2F;O等待的时间是否大于刷cache&#x2F;TLB的时间，如果大于我切换到别的任务才是有收益的，否则甚至可以不切换</li>
 <li>其他没有想到的可能…</li>
 </ul>
 

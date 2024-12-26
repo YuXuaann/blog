@@ -193,14 +193,14 @@
             
             <span class="tag">
                 
-                <a href="/tags/Makefile/" style="color: #ff7d73">
+                <a href="/tags/Makefile/" style="color: #03a9f4">
                     Makefile
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/compile/" style="color: #03a9f4">
+                <a href="/tags/compile/" style="color: #ff7d73">
                     compile
                 </a>
             </span>
@@ -212,6 +212,7 @@
     <div class="content" v-pre>
         <p>不要小看工具的力量，在工具上少花的时间，会在你的工作中十倍奉还</p>
 <span id="more"></span>
+
 <p>文件目录</p>
 <pre><code>├── hello
 ├── main.c
@@ -221,24 +222,24 @@
 </code></pre>
 <p>测试代码</p>
 <p>main.c</p>
-<pre><code class="language-cpp">#include&lt;stdio.h&gt;
+<pre><code class="cpp">#include&lt;stdio.h&gt;
 int main() &#123;
     printf(&quot;Hello, World!\n&quot;);
     return 0;
 &#125;
 </code></pre>
 <p>最简单的 c 语言项目构建过程：</p>
-<pre><code class="language-bash">gcc main.c -o hello
+<pre><code class="bash">gcc main.c -o hello
 ./hello
 </code></pre>
 <p>Makefile 基本格式：</p>
-<pre><code class="language-makefile">target: dependecies
-	action
+<pre><code class="makefile">target: dependecies
+    action
 
 .PHONY: 伪目标 （将不认为文件名是文件，而是某种特点的操作，一般有all、clean）
 </code></pre>
 <p>颜色输出：</p>
-<pre><code class="language-makefile">黑色: \e[30m
+<pre><code class="makefile">黑色: \e[30m
 红色: \e[31m
 绿色: \e[32m
 黄色: \e[33m
@@ -250,26 +251,19 @@ int main() &#123;
 </code></pre>
 <p>tips:</p>
 <ul>
-<li>
-<p>一般<code>make clean</code>需要权限，需要用户手动执行</p>
+<li><p>一般<code>make clean</code>需要权限，需要用户手动执行</p>
 </li>
-<li>
-<p><code>$&lt;</code>表示第一个依赖文件</p>
+<li><p><code>$&lt;</code>表示第一个依赖文件</p>
 </li>
-<li>
-<p><code>$^</code>表示所有依赖文件</p>
+<li><p><code>$^</code>表示所有依赖文件</p>
 </li>
-<li>
-<p><code>$@</code>表示目标文件</p>
+<li><p><code>$@</code>表示目标文件</p>
 </li>
-<li>
-<p><code>makefile</code>中参数<code>-n</code>会显示该 make 指令中会执行的所有语句，但不会真的执行</p>
+<li><p><code>makefile</code>中参数<code>-n</code>会显示该 make 指令中会执行的所有语句，但不会真的执行</p>
 </li>
-<li>
-<p><code>makefile</code>中参数<code>-C</code>会指定该 make 指令中执行的目录</p>
+<li><p><code>makefile</code>中参数<code>-C</code>会指定该 make 指令中执行的目录</p>
 </li>
-<li>
-<p><code>makefile</code>中使用换行符<code>\</code>前记得加空格</p>
+<li><p><code>makefile</code>中使用换行符<code>\</code>前记得加空格</p>
 </li>
 </ul>
 
