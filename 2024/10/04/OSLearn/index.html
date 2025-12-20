@@ -193,8 +193,29 @@
             
             <span class="tag">
                 
-                <a href="/tags/OS/" style="color: #ff7d73">
+                <a href="/tags/tech/" style="color: #ffa2c4">
+                    tech
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/OS/" style="color: #03a9f4">
                     OS
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/network/" style="color: #ff7d73">
+                    network
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/IO/" style="color: #ffa2c4">
+                    IO
                 </a>
             </span>
             
@@ -732,14 +753,54 @@
 <li><p>信号量是操作系统中的一种同步原语，用于在多个线程或进程之间共享资源时进行互斥访问。它通常是一个整数值，用于计数指定数量的资源可用。</p>
 </li>
 </ol>
-<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><ol>
-<li>创建套接字：使用系统调用创建一个套接字。</li>
-<li>绑定套接字：将套接字绑定到一个特定的IP地址和端口号。</li>
-<li>监听连接：对于服务器端，监听来自客户端的连接请求。</li>
-<li>接受连接：接受客户端的连接请求。</li>
-<li>发送和接收数据：通过套接字发送和接收数据。</li>
-<li>关闭套接字：完成通信后关闭套接字。</li>
+<h2 id="网络"><a href="#网络" class="headerlink" title="网络"></a>网络</h2><h3 id="OSI模型"><a href="#OSI模型" class="headerlink" title="OSI模型"></a>OSI模型</h3><p><img src="/2024/10/04/OSLearn/osi.png" alt="OSI"></p>
+<h3 id="套接字"><a href="#套接字" class="headerlink" title="套接字"></a>套接字</h3><ol>
+<li>定义：套接字的本质是操作系统提供的一种抽象接口，它将网络通信的复杂性封装成简单的API，使应用程序能够方便地实现网络功能（应用层到传输层或其他协议层的访问接口）。套接字既是通信<strong>端点</strong>（例如TCP套接字，它是TCP端点的同义词）的抽象，也是操作系统资源和协议栈的接口。可以看做是一种特殊的<strong>文件</strong>。</li>
 </ol>
+<h3 id="TCP连接的建立"><a href="#TCP连接的建立" class="headerlink" title="TCP连接的建立"></a>TCP连接的建立</h3><p>从用户的角度（应用层）看，建立TCP连接就像打电话。</p>
+<ol>
+<li><code>socket</code>: 申请一个电话机（套接字描述符号）。</li>
+<li><code>bind</code>: 给电话机绑定自己的电话号码（IP地址和端口号）。</li>
+<li><code>listen</code>: 开机，允许接受别人打电话打进来（监听端口）。</li>
+<li><code>accept</code>: 有人打电话进来，接听电话（建立连接）。</li>
+<li><code>connect</code>: 拨号，打电话给别人（发起连接）。</li>
+</ol>
+<h3 id="TCP状态机"><a href="#TCP状态机" class="headerlink" title="TCP状态机"></a>TCP状态机</h3><p><img src="/2024/10/04/OSLearn/tcp-state_machine.png" alt="TCP状态机"></p>
+<h4 id="TIME-WAIT-状态"><a href="#TIME-WAIT-状态" class="headerlink" title="TIME-WAIT 状态"></a>TIME-WAIT 状态</h4><ol>
+<li>用于可靠实现TCP全双工连接的中止。比如ACK发送端发送ACK失败了，接收端重发FIN，此时ACK发送端需要该状态重新接受。</li>
+<li>允许老的重复分组在网络中消失:</li>
+</ol>
+<p>基本假设：每个数据报存在<strong>跳限</strong>（数据包在网络传输过程中能够经过的最大路由器数量），假设具有最大跳限的<strong>分组</strong>（网络层数据传输的基本单位）在网络中存在的时间不会超过<strong>MSL</strong>秒；路由协议寻找新路径的时间不超过MSL。</p>
+<p>考虑网路中可能出现分组”迷路”的情况（可能是某个路由器坏了，路由协议需要时间寻找新路径），导致该分组在网络中滞留。通过TIME-WAIT状态，在最坏情况下，发送方向和接受方向的分组都在网络中滞留，等待2MSL时间后，可以保证网络中的所有分组都已经消失，可以安全地关闭连接。</p>
+<h3 id="套接字地址结构体"><a href="#套接字地址结构体" class="headerlink" title="套接字地址结构体"></a>套接字地址结构体</h3><p><img src="/2024/10/04/OSLearn/socket-addr.png" alt="套接字地址结构体"></p>
+<h4 id="套接字编程的值-结果参数"><a href="#套接字编程的值-结果参数" class="headerlink" title="套接字编程的值-结果参数"></a>套接字编程的值-结果参数</h4><p>长度参数以可变引用形式传递。</p>
+<ol>
+<li>长度参数传入时：表示该结构体大小（size）。</li>
+<li>长度参数传出时：表示该结构体的实际大小，告诉进程该结构真正存储的信息的大小。</li>
+</ol>
+<h3 id="套接字编程最一般模式"><a href="#套接字编程最一般模式" class="headerlink" title="套接字编程最一般模式"></a>套接字编程最一般模式</h3><p><img src="/2024/10/04/OSLearn/socket-coding.png" alt="套接字编程最一般模式"></p>
+<h3 id="smoltcp-模块"><a href="#smoltcp-模块" class="headerlink" title="smoltcp 模块"></a>smoltcp 模块</h3><ul>
+<li><code>Socket&lt;&#39;a&gt;</code>: 常见的 Socket 类型，有 TCP 和 UDP 等等</li>
+<li><code>SocketHandle</code>: socket 的句柄，socket 的唯一标识符</li>
+<li><code>SocketStorage</code>: 存储单个 socket 的容器, 可为空</li>
+<li><code>SocketBuffer</code>: 用于存储收发数据的缓冲区</li>
+<li><code>SocketSet</code>: socket 的集合管理器</li>
+<li><code>Interface</code>: 网络接口的主要抽象</li>
+</ul>
+<h2 id="I-O-设备"><a href="#I-O-设备" class="headerlink" title="I&#x2F;O 设备"></a>I&#x2F;O 设备</h2><h3 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h3><p>对操作系统来讲就是一组寄存器</p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><ul>
+<li>字符设备</li>
+<li>块设备</li>
+</ul>
+<h3 id="I-O设备的抽象接口"><a href="#I-O设备的抽象接口" class="headerlink" title="I&#x2F;O设备的抽象接口"></a>I&#x2F;O设备的抽象接口</h3><ul>
+<li>read</li>
+<li>write</li>
+<li>ioctl</li>
+</ul>
+<h3 id="何为驱动程序"><a href="#何为驱动程序" class="headerlink" title="何为驱动程序"></a>何为驱动程序</h3><p>把系统调用翻译成对寄存器的操作</p>
+<h3 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h3><p>本质：对物理设备的虚拟化，文件（虚拟磁盘） &#x3D; 一个可以读写的动态字节序列，并且可以改变大小（vec）</p>
+<p>目录树的拼接：运行任意目录挂载目录树</p>
+<p>符号链接：可以让文件的树，变成图，甚至通过设定特定的符号链接，创造出一个有意思的迷宫</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ol>
 <li>batch一般指批处理, 而job一般指作业</li>
 <li>fd 通常是文件描述符（File Descriptor）的缩写</li>
@@ -759,7 +820,7 @@
     <div id="footer-wrap">
         <div>
             &copy;
-            2022 - 2024 YuXuaan&#39;s Blog
+            2022 - 2025 YuXuaan&#39;s Blog
             <span id="footer-icon">
                 <i class="fa-solid fa-font-awesome fa-fw"></i>
             </span>
