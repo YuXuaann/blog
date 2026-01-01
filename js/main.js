@@ -11,11 +11,9 @@ const app = Vue.createApp({
         };
     },
     created() {
-        window.addEventListener("load", () => {
-            this.loading = false;
-        });
     },
     mounted() {
+        this.loading = false;
         window.addEventListener("scroll", this.handleScroll, true);
         this.render();
     },
